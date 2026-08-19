@@ -12,7 +12,7 @@ import { useTutorProfile } from "@/context/TutorProfileContext";
 import { usePlan } from "@/context/PlanContext";
 import { useSessions } from "@/context/SessionsContext";
 import { useSchedule } from "@/context/ScheduleContext";
-import { STAGES } from "@/lib/curriculum";
+import { stagesFor } from "@/lib/curriculum";
 import { useSession } from "next-auth/react";
 import {
   IconFlame,
@@ -43,7 +43,8 @@ export default function UserDashboard({ onGoToPlanning }: { onGoToPlanning: () =
   const [scheduleOpen, setScheduleOpen] = useState(false);
 
   const displayName = profile.displayName || session?.user?.name || "";
-  const currentStage = STAGES[Math.min(profile.stageIndex, STAGES.length - 1)];
+  const stages = stagesFor(profile.ageRange);
+  const currentStage = stages[Math.min(profile.stageIndex, stages.length - 1)];
 
   return (
     <>

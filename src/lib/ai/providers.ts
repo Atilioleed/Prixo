@@ -27,7 +27,8 @@ export const AI_PROVIDERS: AiProviderDef[] = [
     tier: "free",
     envKey: "GOOGLE_GENERATIVE_AI_API_KEY",
     modelEnvKey: "GOOGLE_MODEL",
-    defaultModel: "gemini-2.0-flash",
+    // "-latest" alias so this never goes stale the way a pinned version does.
+    defaultModel: "gemini-flash-latest",
     model: (apiKey, modelId) => createGoogleGenerativeAI({ apiKey })(modelId),
   },
   {
@@ -36,7 +37,7 @@ export const AI_PROVIDERS: AiProviderDef[] = [
     tier: "free",
     envKey: "GROQ_API_KEY",
     modelEnvKey: "GROQ_MODEL",
-    defaultModel: "llama-3.3-70b-versatile",
+    defaultModel: "openai/gpt-oss-120b",
     model: (apiKey, modelId) => createGroq({ apiKey })(modelId),
   },
   {

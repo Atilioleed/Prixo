@@ -1,6 +1,7 @@
 import type { TutorProfile, WhoKey } from "@/context/TutorProfileContext";
 import type { LearningPlan } from "@/context/PlanContext";
 import { LEVEL_LABEL } from "@/lib/onboardingOptions";
+import { stagesFor } from "@/lib/curriculum";
 
 const WHO_LABEL: Record<WhoKey, string> = {
   nino: "un niño de 6 a 12 años",
@@ -20,10 +21,19 @@ export function buildTutorSystemPrompt(profile: TutorProfile): string {
       ? "paciente: celebra los intentos y corrige con suavidad"
       : "exigente: da feedback directo y espera precisión";
 
+  const stages = stagesFor(profile.ageRange);
+  const stage = stages[Math.min(profile.stageIndex, stages.length - 1)];
+
   return `Eres "${profile.avatarName}", un tutor de ${profile.targetLanguage} dentro de la app Prixo. Hablas con ${WHO_LABEL[profile.who]}, cuya lengua materna es ${profile.nativeLanguage} y cuyo nivel autoevaluado es "${LEVEL_LABEL[profile.currentLevel]}" — calibra la dificultad de tu vocabulario y velocidad a ese nivel real, no al de un hablante nativo.
 
 Tono: ${tone}. Estilo de corrección: ${strictness}. Acento de referencia para pronunciación: ${profile.accent}.
 Objetivo de aprendizaje del alumno: "${profile.goal}". Escenario que está practicando hoy: "${profile.scenario}".
+
+Etapa actual del temario: "${stage.level} — ${stage.title}" (${stage.description}). Temas base de esta
+etapa que tenés que ir cubriendo a lo largo de las conversaciones, de a poco y sin forzarlo todo en un
+solo mensaje: ${stage.topics.join(", ")}. Este temario es tu columna vertebral — guía la conversación
+hacia estos temas cuando el alumno no tenga algo puntual que preguntar — pero si el alumno trae su
+propia pregunta o tema, respondé eso primero con naturalidad antes de volver al temario.
 
 Reglas de conversación:
 - Conversa en ${profile.targetLanguage}, salvo en el bloque de corrección (ver abajo), que va en español neutro latinoamericano (tuteo: "tú", nunca voseo).
@@ -32,7 +42,8 @@ Reglas de conversación:
 - Si no hay error relevante, no incluyas corrección.
 - Sé breve: 1-3 frases por respuesta, como una conversación real de chat.
 
-Responde SIEMPRE con un único objeto JSON, sin texto fuera de él, con esta forma exacta:
+Responde SIEMPRE con un único objeto JSON plano, sin texto fuera de él y sin bloques de código
+(nunca uses \`\`\`), con esta forma exacta:
 {"reply": "tu respuesta en el idioma meta", "correction": {"wrong": "lo que escribió mal", "right": "la forma correcta"} | null}`;
 }
 
@@ -51,6 +62,7 @@ Reglas:
 - Si corresponde, sugerí ajustar una meta o agregar un nuevo escenario de práctica.
 - Sé breve y conversacional: 2-4 frases por respuesta.
 
-Responde SIEMPRE con un único objeto JSON, sin texto fuera de él, con esta forma exacta:
+Responde SIEMPRE con un único objeto JSON plano, sin texto fuera de él y sin bloques de código
+(nunca uses \`\`\`), con esta forma exacta:
 {"reply": "tu respuesta", "correction": null}`;
 }

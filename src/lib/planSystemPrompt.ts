@@ -7,7 +7,8 @@ El alumno te va a describir, en sus propias palabras, una situación real que qu
 
 Tu trabajo es convertir eso en un plan de estudio concreto y accionable, adaptado específicamente a esa situación (no un curso genérico).
 
-Responde SIEMPRE con un único objeto JSON, sin texto fuera de él, con esta forma exacta:
+Responde SIEMPRE con un único objeto JSON plano, sin texto fuera de él y sin bloques de código
+(nunca uses \`\`\`), con esta forma exacta:
 {
   "shortTerm": ["3 a 5 metas concretas para las próximas 1-2 semanas, específicas a la situación descrita"],
   "longTerm": ["2 a 4 metas para todo el período hasta la fecha límite (o los próximos 2-3 meses si no hay fecha)"],

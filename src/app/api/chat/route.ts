@@ -75,7 +75,7 @@ export async function POST(req: NextRequest) {
     const { text: raw } = await generateWithFallback({
       system,
       messages: body.messages.map((m) => ({ role: m.role, content: m.content })),
-      maxOutputTokens: 400,
+      maxOutputTokens: 700,
     });
 
     const parsed = extractJson(raw);
