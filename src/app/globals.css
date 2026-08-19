@@ -1,0 +1,256 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Mission Dossier — Prixo's design world.
+   A personal briefing folder rendered through night-ops
+   instrument glass: dark ground, amber/cyan telemetry, the
+   original violet→lime mark kept as a wax-seal, never spread
+   as a general accent again.
+   ============================================================ */
+
+:root {
+  --ground: #0a0d13;
+  --ground-raised: #10141c;
+  --ground-raised-2: #161b26;
+  --line: #232a38;
+  --line-bright: #3a4661;
+
+  --text: #eef1f6;
+  --text-soft: #97a2b8;
+  --text-faint: #5c6579;
+
+  --amber: #ffb020;
+  --amber-dim: #a66c12;
+  --amber-tint: #2a2013;
+  --cyan: #4dd8d0;
+  --cyan-dim: #2b8a84;
+  --cyan-tint: #10262a;
+  --red: #ff6259;
+  --red-tint: #2a1414;
+
+  --seal-violet: #5b4fe8;
+  --seal-violet-tint: #1c1a3a;
+  --seal-lime: #c6ff5c;
+  --seal-lime-tint: #1c2a10;
+  --pink: #ff5ea8;
+  --pink-tint: #2a1420;
+  --paper: #e8e2d0;
+
+  --radius-panel: 14px;
+  --radius-chip: 999px;
+}
+
+@theme inline {
+  --color-ground: var(--ground);
+  --color-ground-raised: var(--ground-raised);
+  --color-ground-raised-2: var(--ground-raised-2);
+  --color-line: var(--line);
+  --color-line-bright: var(--line-bright);
+
+  --color-text: var(--text);
+  --color-text-soft: var(--text-soft);
+  --color-text-faint: var(--text-faint);
+
+  --color-amber: var(--amber);
+  --color-amber-dim: var(--amber-dim);
+  --color-amber-tint: var(--amber-tint);
+  --color-cyan: var(--cyan);
+  --color-cyan-dim: var(--cyan-dim);
+  --color-cyan-tint: var(--cyan-tint);
+  --color-red: var(--red);
+  --color-red-tint: var(--red-tint);
+
+  --color-seal-violet: var(--seal-violet);
+  --color-seal-violet-tint: var(--seal-violet-tint);
+  --color-seal-lime: var(--seal-lime);
+  --color-seal-lime-tint: var(--seal-lime-tint);
+  --color-pink: var(--pink);
+  --color-pink-tint: var(--pink-tint);
+  --color-paper: var(--paper);
+
+  --radius-panel: var(--radius-panel);
+  --radius-chip: var(--radius-chip);
+
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+::selection {
+  background: var(--amber);
+  color: #1a1400;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  scrollbar-color: var(--line-bright) var(--ground);
+}
+
+/* ---------- panel: the base briefing-glass surface ---------- */
+.panel {
+  background: var(--ground-raised);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-panel);
+  position: relative;
+}
+
+/* corner brackets — the viewfinder/HUD signature, used sparingly */
+.panel-bracketed {
+  position: relative;
+}
+.panel-bracketed::before,
+.panel-bracketed::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid var(--amber);
+  opacity: 0.55;
+  pointer-events: none;
+}
+.panel-bracketed::before {
+  top: -1px;
+  left: -1px;
+  border-right: none;
+  border-bottom: none;
+}
+.panel-bracketed::after {
+  bottom: -1px;
+  right: -1px;
+  border-left: none;
+  border-top: none;
+}
+
+.data-label {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.tabular {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- interactive lift (buttons, panels, chips) ---------- */
+.lift {
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.18s ease, border-color 0.18s ease;
+}
+.lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px -12px rgba(0, 0, 0, 0.5);
+}
+.lift:active { transform: translateY(0); }
+
+.glow-amber:hover { box-shadow: 0 0 0 1px var(--amber), 0 10px 28px -10px rgba(255, 176, 32, 0.45); }
+.glow-cyan:hover { box-shadow: 0 0 0 1px var(--cyan), 0 10px 28px -10px rgba(77, 216, 208, 0.4); }
+
+/* ---------- motion ---------- */
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-rise { animation: rise 0.32s cubic-bezier(0.16, 1, 0.3, 1); }
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up {
+  animation: fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(var(--stagger, 0) * 60ms);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+.animate-float { animation: float 5s ease-in-out infinite; }
+
+@keyframes seal-spin {
+  to { transform: rotate(360deg); }
+}
+.animate-seal-spin { animation: seal-spin 8s linear infinite; }
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 176, 32, 0.5); }
+  50% { box-shadow: 0 0 0 8px rgba(255, 176, 32, 0); }
+}
+.animate-glow-pulse { animation: glow-pulse 1.6s ease-out infinite; }
+
+@keyframes burst-ring {
+  from { transform: scale(0.4); opacity: 0.9; }
+  to { transform: scale(2.2); opacity: 0; }
+}
+@keyframes burst-pop {
+  0% { transform: scale(0.7); }
+  55% { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+.animate-burst-pop { animation: burst-pop 0.42s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.burst-ring {
+  position: absolute; inset: 0; border-radius: inherit;
+  border: 2px solid var(--amber);
+  animation: burst-ring 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  pointer-events: none;
+}
+
+@keyframes sweep-in {
+  from { clip-path: circle(0% at var(--sweep-x, 50%) var(--sweep-y, 50%)); opacity: 0.4; }
+  to { clip-path: circle(150% at var(--sweep-x, 50%) var(--sweep-y, 50%)); opacity: 1; }
+}
+.animate-sweep-in { animation: sweep-in 0.9s cubic-bezier(0.16, 1, 0.3, 1); }
+
+@keyframes radar-spin {
+  to { transform: rotate(360deg); }
+}
+.animate-radar-spin { animation: radar-spin 4s linear infinite; }
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+.animate-pulse-dot { animation: pulse-dot 1.8s ease-in-out infinite; }
+
+@keyframes scanline-move {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(100%); }
+}
+.animate-scanline { animation: scanline-move 2.4s linear infinite; }
+
+@keyframes flicker-in {
+  0% { opacity: 0; }
+  30% { opacity: 0.6; }
+  40% { opacity: 0.1; }
+  60% { opacity: 0.9; }
+  100% { opacity: 1; }
+}
+.animate-flicker-in { animation: flicker-in 0.5s steps(6, end); }
+
+input[type="range"] {
+  accent-color: var(--amber);
+}
+input[type="range"]::-webkit-slider-thumb {
+  box-shadow: 0 0 0 3px var(--amber-tint);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise, .animate-float, .animate-sweep-in, .animate-radar-spin,
+  .animate-pulse-dot, .animate-scanline, .animate-flicker-in,
+  .animate-fade-up, .animate-seal-spin, .animate-glow-pulse, .animate-burst-pop,
+  .burst-ring, .lift {
+    animation: none !important;
+    transition: none !important;
+  }
+  .lift:hover { transform: none; }
+}

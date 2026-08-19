@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "bounce-easing",
+        "value": "cubic-bezier(0.34, 1.56, 0.64, 1)",
+        "createdAt": "2026-08-18T22:17:33.994Z",
+        "reason": "user asked explicitly for more energy/liveliness (\"colores, energia, vivo\"); kept as a one-shot celebratory pop on passing a curriculum stage, not a repeated hover -- the repeated .lift hover use was fixed to exponential ease-out instead"
+      }
+    ]
+  }
+}
