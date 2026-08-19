@@ -1,7 +1,15 @@
+import Link from "next/link";
+import type { Metadata } from "next";
 import InfoPageLayout from "@/components/InfoPageLayout";
 import InfoSection from "@/components/InfoSection";
+import TLDR from "@/components/TLDR";
 
-export const metadata = { title: "Términos y Condiciones — Prixo" };
+export const metadata: Metadata = {
+  title: "Reglas de uso de la plataforma",
+  description:
+    "Términos y condiciones de Prixo: qué podés esperar del tutor de IA, tus responsabilidades como usuario, y las reglas sobre cuentas, contenido generado por IA y planes.",
+  alternates: { canonical: "/terminos" },
+};
 
 export default function TermsPage() {
   return (
@@ -12,6 +20,22 @@ export default function TermsPage() {
         tenga algo razonable desde el día uno. Antes de operar comercialmente conviene que un
         abogado lo revise y lo ajuste a tu país y a tu modelo de precios final.
       </div>
+
+      <TLDR
+        items={[
+          "El tutor de IA puede equivocarse — usá tu criterio en contextos formales o de alto impacto.",
+          "Sos responsable de la confidencialidad de tu cuenta y de la información que nos das.",
+          "Mientras tu cuenta esté activa, podés crear todos los planes de estudio que quieras.",
+          "El diseño y la marca son de Prixo; tus conversaciones y tu progreso son tuyos.",
+        ]}
+      />
+
+      <Link
+        href="/login"
+        className="lift glow-amber inline-block w-fit border-none px-5 py-2.5 rounded-[10px] bg-amber text-[#1a1400] font-bold text-[13.5px]"
+      >
+        Crear mi cuenta →
+      </Link>
 
       <InfoSection title="1. Aceptación de los términos">
         <p>
@@ -67,12 +91,18 @@ export default function TermsPage() {
         </p>
       </InfoSection>
 
-      <InfoSection title="7. Planes y pagos">
+      <InfoSection title="7. Planes de suscripción y planes de estudio">
         <p>
-          Los precios y planes vigentes se muestran en la aplicación al momento de la
-          contratación. Si activamos cobros, vas a poder ver el detalle y cancelar cuando
-          quieras desde tu cuenta. Esta sección se va a completar cuando definamos el modelo
-          de precios final.
+          Estos son dos cosas distintas. Tu <strong className="text-text">plan de
+          suscripción</strong> es el contrato comercial: los precios y planes vigentes se
+          muestran en la aplicación al momento de la contratación, y si activamos cobros vas a
+          poder ver el detalle y cancelar cuando quieras desde tu cuenta.
+        </p>
+        <p>
+          Tu <strong className="text-text">plan de estudio</strong> es el que la IA arma para
+          vos según tu objetivo (un viaje, una negociación, un examen). Mientras tu
+          suscripción esté vigente, podés crear todos los planes de estudio que necesites —
+          uno por cada objetivo distinto que quieras trabajar — sin límite adicional.
         </p>
       </InfoSection>
 
@@ -102,6 +132,15 @@ export default function TermsPage() {
       <InfoSection title="11. Contacto">
         <p>Para consultas sobre estos términos, escribinos a soporte@prixo.app.</p>
       </InfoSection>
+
+      <div className="pt-2 border-t border-line flex flex-wrap gap-x-5 gap-y-2 text-[12.5px] font-semibold">
+        <Link href="/privacidad" className="text-cyan hover:text-text">
+          Política de Privacidad
+        </Link>
+        <Link href="/faq" className="text-cyan hover:text-text">
+          Preguntas frecuentes
+        </Link>
+      </div>
     </InfoPageLayout>
   );
 }

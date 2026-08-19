@@ -36,7 +36,7 @@ const CHANNEL_ICON: Record<string, React.ComponentType<{ size?: number; classNam
 export default function UserDashboard({ onGoToPlanning }: { onGoToPlanning: () => void }) {
   const { data: session } = useSession();
   const { profile } = useTutorProfile();
-  const { plan } = usePlan();
+  const { activePlan } = usePlan();
   const { logSession } = useSessions();
   const { sessions: scheduledClasses, cancel } = useSchedule();
   const [videoOpen, setVideoOpen] = useState(false);
@@ -132,9 +132,9 @@ export default function UserDashboard({ onGoToPlanning }: { onGoToPlanning: () =
               <IconBell size={16} className="text-amber" />
               <span className="font-semibold text-[13px] text-text">Recordatorios</span>
             </div>
-            {plan && plan.milestones.length > 0 ? (
+            {activePlan && activePlan.milestones.length > 0 ? (
               <div className="flex flex-col gap-1.5">
-                {plan.milestones.slice(0, 4).map((m, i) => (
+                {activePlan.milestones.slice(0, 4).map((m, i) => (
                   <div key={i} className="text-[12px] text-text-soft">
                     <span className="font-semibold text-text">{m.title}</span> — {m.when}
                   </div>

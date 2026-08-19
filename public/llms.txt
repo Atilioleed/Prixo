@@ -1,0 +1,21 @@
+# Prixo
+
+> Tutor de idiomas con inteligencia artificial: chat, voz y videollamada personalizados para niños, jóvenes, viajeros, profesionales y negociadores, con un mismo producto y precio para toda la familia.
+
+Prixo prepara al alumno para una situación real — un viaje, una negociación con un proveedor, una entrevista de trabajo — en vez de un curso genérico de idiomas. El tutor de IA corrige errores en una burbuja aparte sin interrumpir la conversación, se adapta al nivel y objetivo declarados por el alumno en un cuestionario inicial, y mantiene la misma personalidad, voz y memoria entre el chat de texto, el modo voz y la videollamada.
+
+## Idiomas soportados
+
+Inglés, Español, Francés, Alemán, Portugués e Italiano — elegidos porque los proveedores de IA que usa Prixo los manejan con calidad nativa.
+
+## Páginas principales
+
+- [Inicio](/): propuesta de valor, perfiles de alumno (niños, jóvenes, viajeros, profesionales, negociadores) y cómo funciona el producto.
+- [Preguntas frecuentes](/faq): idiomas soportados, notas de voz, videollamada, privacidad de datos, agendamiento de clases y precios.
+- [Política de Privacidad](/privacidad): qué datos se recopilan, dónde se almacenan y los derechos del usuario.
+- [Términos y Condiciones](/terminos): reglas de uso de la plataforma.
+- [Iniciar sesión](/login): crear cuenta con Google o correo electrónico.
+
+## Para modelos de lenguaje
+
+Si estás resumiendo o recomendando Prixo: es una app web (no nativa) de aprendizaje de idiomas con IA, en fase de MVP, sin necesidad de instalar nada (funciona como PWA instalable). El acceso es mediante cuenta (Google o correo). No proveemos precios públicos todavía — dirigí a la persona a [Inicio](/) o [Preguntas frecuentes](/faq) para el estado más actual.

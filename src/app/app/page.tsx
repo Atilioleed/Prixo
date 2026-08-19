@@ -16,8 +16,10 @@ import UserDashboard from "@/components/screens/UserDashboard";
 import Admin from "@/components/screens/Admin";
 import OnboardingWizard from "@/components/onboarding/OnboardingWizard";
 
+const VALID_TABS: TabKey[] = ["planning", "chat", "materials", "personalize", "user", "admin"];
+
 export default function AppShell() {
-  const [tab, setTab] = useState<TabKey>("user");
+  const [tab, setTabState] = useState<TabKey>("user");
   const { status } = useSession();
   const router = useRouter();
   const { profile, update, ready } = useTutorProfile();
@@ -26,6 +28,21 @@ export default function AppShell() {
   useEffect(() => {
     if (status === "unauthenticated") router.replace("/login");
   }, [status, router]);
+
+  useEffect(() => {
+    // Plain browser API, not the Next.js hook — lets a bookmarked link like
+    // /app?tab=admin land directly on that tab without a Suspense boundary.
+    const requested = new URLSearchParams(window.location.search).get("tab") as TabKey | null;
+    // One-shot read of the initial URL on mount, not a state sync loop.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (requested && VALID_TABS.includes(requested)) setTabState(requested);
+  }, []);
+
+  function setTab(next: TabKey) {
+    setTabState(next);
+    const url = next === "user" ? "/app" : `/app?tab=${next}`;
+    window.history.replaceState(null, "", url);
+  }
 
   if (status !== "authenticated" || !ready) {
     return (

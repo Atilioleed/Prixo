@@ -43,7 +43,7 @@ function greetingFor(mode: ChatMode, avatarName: string, targetLanguage: string)
 
 export default function Chat() {
   const { profile } = useTutorProfile();
-  const { plan } = usePlan();
+  const { activePlan } = usePlan();
   const { logSession } = useSessions();
   const langCode = langCodeFor(profile.targetLanguage);
   const { supported: voiceSupported, listening, listen, stopListening, speak } = useVoice(langCode);
@@ -96,7 +96,7 @@ export default function Chat() {
         body: JSON.stringify({
           profile,
           mode,
-          plan,
+          plan: activePlan,
           messages: nextBubbles.map((b) => ({
             role: b.role === "me" ? "user" : "assistant",
             content: b.text,

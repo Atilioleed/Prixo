@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { usePlan, LearningPlan } from "@/context/PlanContext";
+import { usePlan } from "@/context/PlanContext";
 import { GOALS } from "@/lib/onboardingOptions";
 import type { TutorProfile } from "@/context/TutorProfileContext";
 import { IconCheck } from "@/components/icons/Icon";
@@ -20,7 +20,7 @@ export default function GeneratingPlan({
   profile: TutorProfile;
   onComplete: () => void;
 }) {
-  const { setPlan } = usePlan();
+  const { addPlan } = usePlan();
   const [doneCount, setDoneCount] = useState(0);
   const [error, setError] = useState<string | null>(null);
 
@@ -46,16 +46,14 @@ export default function GeneratingPlan({
         const data = await res.json();
         if (cancelled) return;
         if (res.ok) {
-          const next: LearningPlan = {
+          addPlan({
             context,
             deadline: "",
             shortTerm: data.shortTerm,
             longTerm: data.longTerm,
             milestones: data.milestones,
             scenarios: data.scenarios,
-            generatedAt: new Date().toISOString(),
-          };
-          setPlan(next);
+          });
         } else {
           setError(data.error ?? null);
         }

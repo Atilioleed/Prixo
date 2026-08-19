@@ -13,10 +13,10 @@ interface Material {
 
 const MATERIALS: Material[] = [
   {
-    title: "Pasado simple — verbos irregulares",
-    level: "A2",
-    type: "Gramática",
-    file: "/materials/pasado-simple-irregulares.md",
+    title: "Mi familia y mis colores favoritos",
+    level: "A1",
+    type: "Vocabulario · Niños",
+    file: "/materials/ingles-para-ninos-familia.md",
   },
   {
     title: "Vocabulario — en el supermercado",
@@ -25,10 +25,40 @@ const MATERIALS: Material[] = [
     file: "/materials/vocabulario-supermercado.md",
   },
   {
+    title: "Pasado simple — verbos irregulares",
+    level: "A2",
+    type: "Gramática",
+    file: "/materials/pasado-simple-irregulares.md",
+  },
+  {
+    title: "Presente perfecto — cuándo usarlo",
+    level: "B1",
+    type: "Gramática",
+    file: "/materials/presente-perfecto.md",
+  },
+  {
+    title: "Viajar sin traductor — aeropuerto y hotel",
+    level: "B1",
+    type: "Lección · Viajeros",
+    file: "/materials/viajero-aeropuerto-hotel.md",
+  },
+  {
     title: "Business English — reuniones",
     level: "B2",
     type: "Lección",
     file: "/materials/business-english-reuniones.md",
+  },
+  {
+    title: "Entrevista de trabajo en inglés",
+    level: "B2",
+    type: "Lección · Profesionales",
+    file: "/materials/entrevista-de-trabajo.md",
+  },
+  {
+    title: "Negociación avanzada con proveedores",
+    level: "C1",
+    type: "Lección · Negociadores",
+    file: "/materials/negociacion-avanzada.md",
   },
 ];
 
@@ -64,9 +94,10 @@ export default function Materials() {
       </div>
 
       <div className="mt-5 border border-dashed border-line rounded-[10px] p-4 text-xs text-text-faint leading-relaxed">
-        En el MVP completo, esta lista se genera automáticamente según tu plan y tus
-        errores recientes (ver Panel admin → Documentos de aprendizaje). Por ahora
-        estos tres archivos son de ejemplo.
+        Estos {MATERIALS.length} documentos son contenido real, listo para descargar y
+        usar — uno por nivel y por perfil (niños, viajeros, profesionales, negociadores).
+        En el MVP completo esta lista se va a ampliar automáticamente según tu plan y
+        tus errores recientes en el chat (ver Panel admin → Documentos de aprendizaje).
       </div>
     </>
   );

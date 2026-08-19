@@ -1,7 +1,15 @@
+import Link from "next/link";
+import type { Metadata } from "next";
 import InfoPageLayout from "@/components/InfoPageLayout";
 import InfoSection from "@/components/InfoSection";
+import TLDR from "@/components/TLDR";
 
-export const metadata = { title: "Política de Privacidad — Prixo" };
+export const metadata: Metadata = {
+  title: "Cómo cuidamos tus datos",
+  description:
+    "Qué datos recopila Prixo, cómo se usan, con quién se comparten y qué derechos tenés sobre tu información — incluyendo el cuidado extra para cuentas de menores.",
+  alternates: { canonical: "/privacidad" },
+};
 
 export default function PrivacyPage() {
   return (
@@ -13,6 +21,22 @@ export default function PrivacyPage() {
         abogado la revise según las leyes de protección de datos de tu país (y las de EE.UU./UE
         si vas a tener usuarios ahí, por regulaciones como COPPA o GDPR sobre datos de menores).
       </div>
+
+      <TLDR
+        items={[
+          "Hoy tus datos viven en el navegador (localStorage), no en un servidor central.",
+          "El contenido de tus chats se envía al proveedor de IA que responde en cada mensaje, nunca se vende a terceros.",
+          "Podés pedir acceso, corrección o borrado de tus datos cuando quieras.",
+          "Hay cuidado extra declarado para cuentas de menores de edad.",
+        ]}
+      />
+
+      <Link
+        href="/login"
+        className="lift glow-amber inline-block w-fit border-none px-5 py-2.5 rounded-[10px] bg-amber text-[#1a1400] font-bold text-[13.5px]"
+      >
+        Crear mi cuenta →
+      </Link>
 
       <InfoSection title="1. Qué datos recopilamos">
         <p>Según cómo uses Prixo, podemos recopilar:</p>
@@ -61,7 +85,12 @@ export default function PrivacyPage() {
           tutor y creás o supervisás una cuenta familiar para un menor, entendés que sos
           responsable de esa cuenta. No recopilamos intencionalmente más datos de un menor
           que los necesarios para el servicio educativo. Si creés que un menor usó Prixo sin
-          tu consentimiento, contactanos para eliminar esa información.
+          tu consentimiento, contactanos para eliminar esa información. Más sobre cómo
+          funcionan los perfiles familiares en las{" "}
+          <Link href="/faq" className="text-cyan hover:text-text">
+            preguntas frecuentes
+          </Link>
+          .
         </p>
       </InfoSection>
 
@@ -94,6 +123,15 @@ export default function PrivacyPage() {
       <InfoSection title="9. Contacto">
         <p>Para cualquier consulta sobre privacidad, escribinos a soporte@prixo.app.</p>
       </InfoSection>
+
+      <div className="pt-2 border-t border-line flex flex-wrap gap-x-5 gap-y-2 text-[12.5px] font-semibold">
+        <Link href="/terminos" className="text-cyan hover:text-text">
+          Términos y Condiciones
+        </Link>
+        <Link href="/faq" className="text-cyan hover:text-text">
+          Preguntas frecuentes
+        </Link>
+      </div>
     </InfoPageLayout>
   );
 }

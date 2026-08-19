@@ -3,6 +3,10 @@ import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Providers from "@/components/Providers";
 import RegisterServiceWorker from "@/components/RegisterServiceWorker";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
+import JsonLd from "@/components/JsonLd";
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://prixo.vercel.app";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-display",
@@ -23,9 +27,13 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Prixo — Tu idioma, un paso a la vez.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "Prixo — Tutor de idiomas con inteligencia artificial",
+    template: "%s | Prixo",
+  },
   description:
-    "Prixo: tutor de IA personalizable, chat, voz y videollamada para aprender idiomas — un mismo producto y precio para cinco perfiles.",
+    "Prixo: tutor de IA personalizable, chat, voz y videollamada para aprender idiomas — un mismo producto y precio para niños, jóvenes, viajeros, profesionales y negociadores.",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
@@ -39,6 +47,30 @@ export const metadata: Metadata = {
     ],
     apple: "/apple-touch-icon.png",
   },
+  robots: { index: true, follow: true },
+  openGraph: {
+    siteName: "Prixo",
+    locale: "es_419",
+    type: "website",
+    url: SITE_URL,
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
+  ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? { verification: { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION } }
+    : {}),
+};
+
+const ORGANIZATION_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Prixo",
+  url: SITE_URL,
+  logo: `${SITE_URL}/icon-512.png`,
+  description:
+    "Plataforma de aprendizaje de idiomas con tutor de inteligencia artificial: chat, voz y videollamada personalizados.",
+  sameAs: [],
 };
 
 export const viewport: Viewport = {
@@ -60,8 +92,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           FORM: field-ops briefing dossier (assigned index 6, seed a0d1098d), raised with collider-event-display telemetry grammar (declined challenger, donated instrument discipline).
           FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance.
         */}
+        <JsonLd data={ORGANIZATION_SCHEMA} />
         <Providers>{children}</Providers>
         <RegisterServiceWorker />
+        <GoogleAnalytics />
       </body>
     </html>
   );
