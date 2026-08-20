@@ -440,3 +440,12 @@ export function IconLink({ size, className, strokeWidth }: IconProps) {
     </svg>
   );
 }
+
+export function IconSearch({ size, className, strokeWidth }: IconProps) {
+  return (
+    <svg {...base(size, strokeWidth)} className={className}>
+      <circle cx="10.5" cy="10.5" r="6.5" />
+      <path d="M19.5 19.5 15 15" />
+    </svg>
+  );
+}
