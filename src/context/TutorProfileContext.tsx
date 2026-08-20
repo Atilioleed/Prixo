@@ -23,7 +23,13 @@ export interface TutorProfile {
   pacienteExigente: number; // 0 = paciente, 100 = exigente
   goal: string;
   scenario: string;
-  stageIndex: number; // index into the curriculum stages the learner has reached
+  /**
+   * Curriculum progress (index into the current stages array), keyed by
+   * target language — so switching from German to English to prep a
+   * business deal doesn't wipe out German progress; each language keeps
+   * its own place and picks back up if the learner returns to it.
+   */
+  progressByLanguage: Record<string, number>;
   onboarded: boolean;
 }
 
@@ -43,9 +49,19 @@ export const DEFAULT_PROFILE: TutorProfile = {
   pacienteExigente: 70,
   goal: "Reuniones y negocios",
   scenario: "Negociar precio con proveedor",
-  stageIndex: 1,
+  progressByLanguage: { Inglés: 1 },
   onboarded: false,
 };
+
+/** Current stage index for whatever language the learner has active right now. */
+export function getStageIndex(profile: TutorProfile): number {
+  return profile.progressByLanguage[profile.targetLanguage] ?? 0;
+}
+
+/** Patch to advance (or set) the stage for the learner's current language. */
+export function withStageIndex(profile: TutorProfile, index: number): Partial<TutorProfile> {
+  return { progressByLanguage: { ...profile.progressByLanguage, [profile.targetLanguage]: index } };
+}
 
 interface Ctx {
   profile: TutorProfile;

@@ -51,6 +51,10 @@ export default function Personalize() {
             <div className="px-5 pt-2.5 pb-5 flex flex-col gap-4 flex-1 overflow-y-auto">
               <div>
                 <div className="data-label mb-2">Idioma que estás aprendiendo</div>
+                <p className="text-[11px] text-text-faint mb-2 leading-relaxed">
+                  Puedes cambiar de idioma cuando quieras — tu avance en el temario se
+                  guarda por separado en cada uno, así que no pierdes lo que ya avanzaste.
+                </p>
                 <div className="grid grid-cols-3 gap-1.5">
                   {LANGUAGES.map((l) => (
                     <button

@@ -8,7 +8,7 @@ import PlanSummaryCard from "@/components/dashboard/PlanSummaryCard";
 import CurriculumCard from "@/components/dashboard/CurriculumCard";
 import SessionsCard from "@/components/dashboard/SessionsCard";
 import ScheduleModal from "@/components/dashboard/ScheduleModal";
-import { useTutorProfile } from "@/context/TutorProfileContext";
+import { useTutorProfile, getStageIndex } from "@/context/TutorProfileContext";
 import { usePlan } from "@/context/PlanContext";
 import { useSessions } from "@/context/SessionsContext";
 import { useSchedule } from "@/context/ScheduleContext";
@@ -50,7 +50,8 @@ export default function UserDashboard({
 
   const displayName = profile.displayName || session?.user?.name || "";
   const stages = stagesFor(profile.ageRange);
-  const currentStage = stages[Math.min(profile.stageIndex, stages.length - 1)];
+  const stageIndex = getStageIndex(profile);
+  const currentStage = stages[Math.min(stageIndex, stages.length - 1)];
 
   return (
     <>
@@ -77,7 +78,7 @@ export default function UserDashboard({
         <div className="p-4 sm:p-5 flex items-center gap-3">
           <IconCheck size={20} className="text-pink shrink-0" />
           <div>
-            <div className="tabular font-semibold text-xl sm:text-2xl leading-none text-text">{profile.stageIndex}</div>
+            <div className="tabular font-semibold text-xl sm:text-2xl leading-none text-text">{stageIndex}</div>
             <div className="data-label mt-1">Etapas</div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import type { TutorProfile, WhoKey } from "@/context/TutorProfileContext";
+import { getStageIndex, type TutorProfile, type WhoKey } from "@/context/TutorProfileContext";
 import type { LearningPlan } from "@/context/PlanContext";
 import { LEVEL_LABEL } from "@/lib/onboardingOptions";
 import { stagesFor } from "@/lib/curriculum";
@@ -22,7 +22,7 @@ export function buildTutorSystemPrompt(profile: TutorProfile): string {
       : "exigente: da feedback directo y espera precisión";
 
   const stages = stagesFor(profile.ageRange);
-  const stage = stages[Math.min(profile.stageIndex, stages.length - 1)];
+  const stage = stages[Math.min(getStageIndex(profile), stages.length - 1)];
 
   return `Eres "${profile.avatarName}", un tutor de ${profile.targetLanguage} dentro de la app Prixo. Hablas con ${WHO_LABEL[profile.who]}, cuya lengua materna es ${profile.nativeLanguage} y cuyo nivel autoevaluado es "${LEVEL_LABEL[profile.currentLevel]}" — calibra la dificultad de tu vocabulario y velocidad a ese nivel real, no al de un hablante nativo.
 

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { stagesFor, randomMotivationalMessage } from "@/lib/curriculum";
-import { useTutorProfile } from "@/context/TutorProfileContext";
+import { useTutorProfile, getStageIndex, withStageIndex } from "@/context/TutorProfileContext";
 import { useSessions } from "@/context/SessionsContext";
 import { IconCheck, IconMedal, IconMessageDots } from "@/components/icons/Icon";
 
@@ -10,7 +10,7 @@ export default function CurriculumCard({ onPracticeStage }: { onPracticeStage: (
   const { profile, update } = useTutorProfile();
   const { logSession } = useSessions();
   const stages = stagesFor(profile.ageRange);
-  const current = Math.min(profile.stageIndex, stages.length - 1);
+  const current = Math.min(getStageIndex(profile), stages.length - 1);
   const [justPassed, setJustPassed] = useState<number | null>(null);
   const [celebration, setCelebration] = useState<string | null>(null);
 
@@ -18,7 +18,7 @@ export default function CurriculumCard({ onPracticeStage }: { onPracticeStage: (
     if (index !== current) return;
     const next = Math.min(current + 1, stages.length - 1);
     const finalTest = stages[index].tests.find((t) => t.kind === "final")?.title ?? stages[index].tests.at(-1)?.title ?? "";
-    update({ stageIndex: next });
+    update(withStageIndex(profile, next));
     logSession("review", `Aprobó "${finalTest}" — avanzó a ${stages[next].level}`);
     setJustPassed(index);
     setCelebration(randomMotivationalMessage(profile.ageRange));

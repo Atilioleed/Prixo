@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import ScreenHead from "@/components/ScreenHead";
-import FlowRow from "@/components/FlowRow";
+import FlowRow, { type FlowRowAccent } from "@/components/FlowRow";
 import Pill from "@/components/Pill";
 import {
   classScheduledEmail,
@@ -125,14 +125,14 @@ const PLAN_BREAKDOWN = [
   { plan: "Empresas", clients: 130, avg: 340, revenue: 44200 },
 ];
 
-const CONNECTORS = [
-  { icon: IconCalendar, name: "Google Calendar", desc: "Sincroniza las clases que el alumno agenda desde su panel — pendiente, necesita OAuth de Google Calendar además del login", active: false },
-  { icon: IconMoney, name: "Stripe", desc: "Cobro de suscripciones y facturación", active: false },
-  { icon: IconWhatsapp, name: "WhatsApp Business (Twilio)", desc: "Envía los recordatorios de clase que el alumno eligió por WhatsApp", active: false },
-  { icon: IconMail, name: "SMS (Twilio)", desc: "Envía los recordatorios de clase por mensaje de texto", active: false },
-  { icon: IconPhoneApp, name: "Notificaciones push (app móvil)", desc: "Recordatorios dentro de la app — requiere la app nativa, no solo la PWA", active: false },
-  { icon: IconPlug, name: "Zapier", desc: "Automatizaciones con otras herramientas", active: false },
-  { icon: IconMessageDots, name: "Slack", desc: "Alertas internas para el equipo de Prixo", active: false },
+const CONNECTORS: { icon: typeof IconCalendar; name: string; desc: string; active: boolean; accent: FlowRowAccent }[] = [
+  { icon: IconCalendar, name: "Google Calendar", desc: "Sincroniza las clases que el alumno agenda desde su panel — pendiente, necesita OAuth de Google Calendar además del login", active: false, accent: "amber" },
+  { icon: IconMoney, name: "Stripe", desc: "Cobro de suscripciones y facturación", active: false, accent: "seal-lime" },
+  { icon: IconWhatsapp, name: "WhatsApp Business (Twilio)", desc: "Envía los recordatorios de clase que el alumno eligió por WhatsApp", active: false, accent: "seal-violet" },
+  { icon: IconMail, name: "SMS (Twilio)", desc: "Envía los recordatorios de clase por mensaje de texto", active: false, accent: "pink" },
+  { icon: IconPhoneApp, name: "Notificaciones push (app móvil)", desc: "Recordatorios dentro de la app — requiere la app nativa, no solo la PWA", active: false, accent: "cyan" },
+  { icon: IconPlug, name: "Zapier", desc: "Automatizaciones con otras herramientas", active: false, accent: "amber" },
+  { icon: IconMessageDots, name: "Slack", desc: "Alertas internas para el equipo de Prixo", active: false, accent: "seal-violet" },
 ];
 
 interface ProviderStatus {
@@ -244,11 +244,11 @@ export default function Admin() {
               <div className="text-[12.5px] text-text-soft mb-[18px]">
                 Secuencias automatizadas que la IA ejecuta según el contexto del alumno.
               </div>
-              <FlowRow icon={<IconWave size={16} />} name="Bienvenida — primer contacto" meta="Se activa al crear la cuenta" active />
-              <FlowRow icon={<IconTrend size={16} />} name="Evaluación de nivel inicial" meta="Ubica al alumno en A1–C1 antes de la primera lección" active />
-              <FlowRow icon={<IconLoop size={16} />} name="Refuerzo semanal de vocabulario" meta="Repasa palabras con errores frecuentes" active />
-              <FlowRow icon={<IconAlarm size={16} />} name="Alerta de inactividad (7 días)" meta="Mensaje motivacional + resumen de progreso" active={false} />
-              <FlowRow icon={<IconCap size={16} />} name="Preparación para examen" meta='Solo para alumnos con objetivo "Examen"' active />
+              <FlowRow icon={<IconWave size={16} />} name="Bienvenida — primer contacto" meta="Se activa al crear la cuenta" active accent="amber" />
+              <FlowRow icon={<IconTrend size={16} />} name="Evaluación de nivel inicial" meta="Ubica al alumno en A1–C1 antes de la primera lección" active accent="pink" />
+              <FlowRow icon={<IconLoop size={16} />} name="Refuerzo semanal de vocabulario" meta="Repasa palabras con errores frecuentes" active accent="seal-lime" />
+              <FlowRow icon={<IconAlarm size={16} />} name="Alerta de inactividad (7 días)" meta="Mensaje motivacional + resumen de progreso" active={false} accent="seal-violet" />
+              <FlowRow icon={<IconCap size={16} />} name="Preparación para examen" meta='Solo para alumnos con objetivo "Examen"' active accent="cyan" />
             </div>
           )}
 
@@ -479,9 +479,9 @@ export default function Admin() {
                 Voces, personalidades y reglas de corrección disponibles para todos los
                 alumnos.
               </div>
-              <FlowRow icon={<IconMessageDots size={16} />} name="Banco de voces" meta="6 voces activas · americano, británico, neutro" active />
-              <FlowRow icon={<IconGear size={16} />} name="Personalidades base" meta="Cercano, formal, motivador, exigente" active />
-              <FlowRow icon={<IconCheck size={16} />} name="Reglas de corrección" meta="Nivel de tolerancia al error por segmento (niño vs. profesional)" active />
+              <FlowRow icon={<IconMessageDots size={16} />} name="Banco de voces" meta="6 voces activas · americano, británico, neutro" active accent="amber" />
+              <FlowRow icon={<IconGear size={16} />} name="Personalidades base" meta="Cercano, formal, motivador, exigente" active accent="seal-violet" />
+              <FlowRow icon={<IconCheck size={16} />} name="Reglas de corrección" meta="Nivel de tolerancia al error por segmento (niño vs. profesional)" active accent="pink" />
             </div>
           )}
 
@@ -492,10 +492,10 @@ export default function Admin() {
                 Cómo mejora el tutor de IA con el uso — datos que alimentan el prompt y las
                 reglas de corrección.
               </div>
-              <FlowRow icon={<IconCheck size={16} />} name="Correcciones revisadas por humano" meta="342 esta semana · mejora las reglas de corrección" active />
-              <FlowRow icon={<IconMessageDots size={16} />} name="Conversaciones de referencia" meta="128 conversaciones marcadas como ejemplo de buen tono" active />
-              <FlowRow icon={<IconTarget size={16} />} name="Escenarios nuevos sugeridos por alumnos" meta="14 pendientes de revisión" active={false} />
-              <FlowRow icon={<IconTrend size={16} />} name="Feedback de satisfacción post-sesión" meta="4.8 / 5 promedio, 1.240 respuestas" active />
+              <FlowRow icon={<IconCheck size={16} />} name="Correcciones revisadas por humano" meta="342 esta semana · mejora las reglas de corrección" active accent="cyan" />
+              <FlowRow icon={<IconMessageDots size={16} />} name="Conversaciones de referencia" meta="128 conversaciones marcadas como ejemplo de buen tono" active accent="amber" />
+              <FlowRow icon={<IconTarget size={16} />} name="Escenarios nuevos sugeridos por alumnos" meta="14 pendientes de revisión" active={false} accent="pink" />
+              <FlowRow icon={<IconTrend size={16} />} name="Feedback de satisfacción post-sesión" meta="4.8 / 5 promedio, 1.240 respuestas" active accent="seal-lime" />
             </div>
           )}
 
@@ -596,7 +596,7 @@ export default function Admin() {
                 recordatorio interno, sin enviarse.
               </div>
               {CONNECTORS.map((c) => (
-                <FlowRow key={c.name} icon={<c.icon size={16} />} name={c.name} meta={c.desc} active={c.active} />
+                <FlowRow key={c.name} icon={<c.icon size={16} />} name={c.name} meta={c.desc} active={c.active} accent={c.accent} />
               ))}
             </div>
           )}

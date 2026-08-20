@@ -80,15 +80,16 @@ export default function OnboardingWizard({ onDone }: { onDone: () => void }) {
       planGoal: draft.planGoal,
       avatarName: draft.avatarName,
       accent: draft.accent,
-      stageIndex: LEVEL_TO_STAGE[draft.currentLevel],
+      progressByLanguage: { ...profile.progressByLanguage, [draft.targetLanguage]: LEVEL_TO_STAGE[draft.currentLevel] },
     });
     setGenerating(true);
   }
 
   if (generating) {
+    const stageProgress = { ...profile.progressByLanguage, [draft.targetLanguage]: LEVEL_TO_STAGE[draft.currentLevel] };
     return (
       <GeneratingPlan
-        profile={{ ...profile, ...draft, stageIndex: LEVEL_TO_STAGE[draft.currentLevel] }}
+        profile={{ ...profile, ...draft, progressByLanguage: stageProgress }}
         onComplete={() => {
           update({ onboarded: true });
           onDone();
