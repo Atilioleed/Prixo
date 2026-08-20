@@ -4,6 +4,10 @@ import { hasAnyProviderConfigured } from "@/lib/ai/providers";
 import { buildPlanSystemPrompt } from "@/lib/planSystemPrompt";
 import type { TutorProfile } from "@/context/TutorProfileContext";
 
+// Plan generation (with fallback across providers) can take well over
+// Vercel's default 10s function timeout — this raises the cap explicitly.
+export const maxDuration = 60;
+
 interface PlanRequestBody {
   context: string;
   deadline: string;

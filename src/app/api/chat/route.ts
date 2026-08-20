@@ -5,6 +5,10 @@ import { buildTutorSystemPrompt, buildReviewSystemPrompt } from "@/lib/tutorSyst
 import type { TutorProfile } from "@/context/TutorProfileContext";
 import type { LearningPlan } from "@/context/PlanContext";
 
+// Provider fallback (trying up to 5 providers in sequence on failure) can
+// take longer than Vercel's default 10s function timeout.
+export const maxDuration = 60;
+
 interface ChatMessage {
   role: "user" | "assistant";
   content: string;
