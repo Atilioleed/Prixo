@@ -21,6 +21,22 @@ const VIOLET_TINT = "#ecebfd";
 
 Font.registerHyphenationCallback((word) => [word]);
 
+// Helvetica's built-in WinAnsi encoding silently drops glyphs outside its
+// table instead of falling back — typographic punctuation that AI-generated
+// content commonly uses (non-breaking hyphen U+2011, narrow/thin no-break
+// spaces before French "?"/"!") was vanishing entirely, e.g.
+// "contre‑offre" rendered as "contreoffre" and "y a‑t‑il" as
+// "y atil". Regular hyphens and em/en dashes already render fine and are
+// used deliberately elsewhere (e.g. "Prixo — prixo.cl"), so only the
+// unsupported characters are normalized here.
+const HYPHEN_VARIANTS = /[‐‑‒]/g; // hyphen, non-breaking hyphen, figure dash
+const NBSP_VARIANTS = /[   ]/g; // non-breaking / narrow / thin space
+
+function clean(text: string | undefined | null): string {
+  if (!text) return "";
+  return text.replace(HYPHEN_VARIANTS, "-").replace(NBSP_VARIANTS, " ");
+}
+
 const styles = StyleSheet.create({
   page: { backgroundColor: BG, padding: 40, fontSize: 10.5, color: TEXT, fontFamily: "Helvetica" },
   headerRow: { flexDirection: "row", alignItems: "center", marginBottom: 22 },
@@ -149,33 +165,33 @@ export function MaterialPdfDocument({
             <Text style={styles.pillOutline}>{language}</Text>
             <Text style={styles.pillOutline}>{type}</Text>
           </View>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.intro}>{content.intro}</Text>
+          <Text style={styles.title}>{clean(title)}</Text>
+          <Text style={styles.intro}>{clean(content.intro)}</Text>
         </View>
 
         {content.sections.map((section, si) => (
           <View key={si} style={styles.section} wrap={false}>
             <View style={styles.sectionHeadingRow}>
               <View style={styles.sectionBar} />
-              <Text style={styles.sectionHeading}>{section.heading}</Text>
+              <Text style={styles.sectionHeading}>{clean(section.heading)}</Text>
             </View>
 
             {section.vocab && section.vocab.length > 0 && (
               <View style={styles.table}>
                 <View style={styles.tableHeadRow}>
-                  <Text style={[styles.colTerm, styles.th]}>Inglés</Text>
+                  <Text style={[styles.colTerm, styles.th]}>{language}</Text>
                   <Text style={[styles.colPron, styles.th]}>Pronunciación</Text>
                   <Text style={[styles.colMeaning, styles.th]}>Español</Text>
                   <Text style={[styles.colExample, styles.th]}>Ejemplo</Text>
                 </View>
                 {section.vocab.map((v, vi) => (
                   <View key={vi} style={vi % 2 === 1 ? styles.tableRowAlt : styles.tableRow}>
-                    <Text style={[styles.colTerm, styles.term]}>{v.term}</Text>
-                    <Text style={[styles.colPron, styles.pron]}>{v.pronunciation}</Text>
-                    <Text style={[styles.colMeaning, styles.meaning]}>{v.meaning}</Text>
+                    <Text style={[styles.colTerm, styles.term]}>{clean(v.term)}</Text>
+                    <Text style={[styles.colPron, styles.pron]}>{clean(v.pronunciation)}</Text>
+                    <Text style={[styles.colMeaning, styles.meaning]}>{clean(v.meaning)}</Text>
                     <View style={styles.colExample}>
-                      <Text style={styles.exampleEn}>{v.example}</Text>
-                      <Text style={styles.exampleEs}>{v.exampleEs}</Text>
+                      <Text style={styles.exampleEn}>{clean(v.example)}</Text>
+                      <Text style={styles.exampleEs}>{clean(v.exampleEs)}</Text>
                     </View>
                   </View>
                 ))}
@@ -186,20 +202,20 @@ export function MaterialPdfDocument({
               <View>
                 {section.phrases.map((p, pi) => (
                   <View key={pi} style={styles.phraseCard}>
-                    <Text style={styles.phraseEn}>{p.phrase}</Text>
-                    <Text style={styles.phraseEs}>{p.meaning}</Text>
+                    <Text style={styles.phraseEn}>{clean(p.phrase)}</Text>
+                    <Text style={styles.phraseEs}>{clean(p.meaning)}</Text>
                   </View>
                 ))}
               </View>
             )}
 
-            {section.note && <Text style={styles.note}>{section.note}</Text>}
+            {section.note && <Text style={styles.note}>{clean(section.note)}</Text>}
           </View>
         ))}
 
         <View style={styles.practiceBox} wrap={false}>
           <Text style={styles.practiceLabel}>✎ PRACTICA</Text>
-          <Text style={styles.practiceText}>{content.practice}</Text>
+          <Text style={styles.practiceText}>{clean(content.practice)}</Text>
         </View>
 
         <View style={styles.footer} fixed>
