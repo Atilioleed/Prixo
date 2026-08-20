@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import ScreenHead from "@/components/ScreenHead";
 import Pill from "@/components/Pill";
 import { IconDownload } from "@/components/icons/Icon";
@@ -9,6 +10,13 @@ interface Material {
   level: string;
   type: string;
   file: string;
+}
+
+interface DbMaterial {
+  id: string;
+  title: string;
+  level: string;
+  type: string;
 }
 
 const MATERIALS: Material[] = [
@@ -63,6 +71,27 @@ const MATERIALS: Material[] = [
 ];
 
 export default function Materials() {
+  const [dbMaterials, setDbMaterials] = useState<DbMaterial[]>([]);
+
+  useEffect(() => {
+    fetch("/api/materials")
+      .then((r) => r.json())
+      .then((data) => {
+        if (Array.isArray(data.materials)) setDbMaterials(data.materials);
+      })
+      .catch(() => {});
+  }, []);
+
+  const combined = [
+    ...MATERIALS,
+    ...dbMaterials.map((m) => ({
+      title: m.title,
+      level: m.level,
+      type: m.type,
+      file: `/api/materials/${m.id}/download`,
+    })),
+  ];
+
   return (
     <>
       <ScreenHead
@@ -71,7 +100,7 @@ export default function Materials() {
       />
 
       <div className="panel panel-bracketed divide-y divide-line">
-        {MATERIALS.map((m, i) => (
+        {combined.map((m, i) => (
           <div key={m.file} className="flex items-center gap-4 px-5 py-4">
             <div className="tabular text-text-faint text-[11px] w-6 shrink-0">
               {String(i + 1).padStart(2, "0")}
@@ -94,10 +123,10 @@ export default function Materials() {
       </div>
 
       <div className="mt-5 border border-dashed border-line rounded-[10px] p-4 text-xs text-text-faint leading-relaxed">
-        Estos {MATERIALS.length} documentos son contenido real, listo para descargar y
+        Estos {combined.length} documentos son contenido real, listo para descargar y
         usar — uno por nivel y por perfil (niños, viajeros, profesionales, negociadores).
-        En el MVP completo esta lista se va a ampliar automáticamente según tu plan y
-        tus errores recientes en el chat (ver Panel admin → Documentos de aprendizaje).
+        Esta lista se amplía cuando el equipo publica nuevo material desde el Panel
+        admin → Documentos de aprendizaje.
       </div>
     </>
   );

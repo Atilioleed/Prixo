@@ -1,19 +1,12 @@
 import { NextResponse } from "next/server";
-import { auth } from "@/auth";
+import { requireAdminSession } from "@/lib/adminAuth";
 import { getProviderStatuses } from "@/lib/ai/providers";
 import { emailConfigured } from "@/lib/email";
-
-function isAdminEmail(email: string | null | undefined): boolean {
-  const adminEmails = (process.env.ADMIN_EMAILS ?? "")
-    .split(",")
-    .map((e) => e.trim().toLowerCase())
-    .filter(Boolean);
-  return !!email && adminEmails.includes(email.toLowerCase());
-}
+import { dbConfigured } from "@/db/client";
 
 export async function GET() {
-  const session = await auth();
-  if (!isAdminEmail(session?.user?.email)) {
+  const session = await requireAdminSession();
+  if (!session) {
     return NextResponse.json({ error: "No autorizado" }, { status: 403 });
   }
 
@@ -23,5 +16,6 @@ export async function GET() {
     aiProviders: getProviderStatuses(),
     email: { configured: emailConfigured() },
     googleAuth: { configured: googleConfigured },
+    database: { configured: dbConfigured() },
   });
 }

@@ -4,12 +4,9 @@ import { useEffect, useState } from "react";
 import ScreenHead from "@/components/ScreenHead";
 import FlowRow, { type FlowRowAccent } from "@/components/FlowRow";
 import Pill from "@/components/Pill";
-import {
-  classScheduledEmail,
-  classReminderEmail,
-  accountWelcomeEmail,
-  passwordChangedEmail,
-} from "@/lib/emailTemplates";
+import EmailTemplatesPanel from "@/components/admin/EmailTemplatesPanel";
+import MaterialsPanel from "@/components/admin/MaterialsPanel";
+import KnowledgeSourcesPanel from "@/components/admin/KnowledgeSourcesPanel";
 import {
   IconLoop,
   IconTrend,
@@ -43,13 +40,15 @@ type AdmKey =
   | "capacitacion"
   | "integraciones"
   | "correos"
-  | "conectores";
+  | "conectores"
+  | "fuentes";
 
 const NAV: { key: AdmKey; label: string; group: string }[] = [
   { key: "flujos", label: "Flujos de conversación", group: "Gestión" },
   { key: "escenarios", label: "Escenarios de práctica", group: "Gestión" },
   { key: "docs", label: "Documentos de aprendizaje", group: "Gestión" },
   { key: "pruebas", label: "Pruebas y evaluaciones", group: "Gestión" },
+  { key: "fuentes", label: "Fuentes de referencia", group: "Gestión" },
   { key: "usuarios", label: "Usuarios y perfiles", group: "Alumnos" },
   { key: "negocio", label: "Métricas de negocio", group: "Negocio" },
   { key: "ia", label: "Configuración de IA / avatares", group: "Sistema" },
@@ -57,50 +56,6 @@ const NAV: { key: AdmKey; label: string; group: string }[] = [
   { key: "integraciones", label: "Integraciones", group: "Sistema" },
   { key: "correos", label: "Plantillas de correo", group: "Sistema" },
   { key: "conectores", label: "Conectores", group: "Sistema" },
-];
-
-const SAMPLE_SITE_URL = "https://prixo.cl";
-
-const EMAIL_TEMPLATES: {
-  key: string;
-  name: string;
-  trigger: string;
-  active: boolean;
-  activeNote: string;
-  html: string;
-}[] = [
-  {
-    key: "clase-agendada",
-    name: "Clase agendada",
-    trigger: "Se envía apenas el alumno confirma un horario en “Mis clases agendadas”.",
-    active: true,
-    activeNote: "Activo — conectado a Resend hoy.",
-    html: classScheduledEmail({ name: "Martina", date: "2026-09-02", time: "16:00", siteUrl: SAMPLE_SITE_URL }).html,
-  },
-  {
-    key: "recordatorio",
-    name: "Recordatorio de clase",
-    trigger: "Pensado para dispararse unas horas antes de la clase agendada.",
-    active: false,
-    activeNote: "Pendiente — falta un disparador programado (ej. Vercel Cron) que revise las clases próximas.",
-    html: classReminderEmail({ name: "Martina", date: "2026-09-02", time: "16:00", siteUrl: SAMPLE_SITE_URL }).html,
-  },
-  {
-    key: "bienvenida",
-    name: "Bienvenida a la cuenta",
-    trigger: "Pensado para dispararse al crear una cuenta nueva.",
-    active: false,
-    activeNote: "Pendiente — hoy el alta por correo es demo y no verifica nada; necesita cuentas reales con base de datos.",
-    html: accountWelcomeEmail({ name: "Martina", siteUrl: SAMPLE_SITE_URL }).html,
-  },
-  {
-    key: "clave-actualizada",
-    name: "Contraseña actualizada",
-    trigger: "Pensado para dispararse cuando un alumno cambia su contraseña.",
-    active: false,
-    activeNote: "Pendiente — los alumnos todavía no tienen contraseña propia (solo el acceso admin la tiene).",
-    html: passwordChangedEmail({ name: "Martina", siteUrl: SAMPLE_SITE_URL }).html,
-  },
 ];
 
 const KPIS = [
@@ -289,43 +244,7 @@ export default function Admin() {
             </div>
           )}
 
-          {tab === "docs" && (
-            <div>
-              <h3 className="text-[19px] font-bold mb-1 text-text">Documentos de aprendizaje</h3>
-              <div className="text-[12.5px] text-text-soft mb-[18px]">
-                Lecciones, vocabulario y material de gramática que alimentan a la IA por
-                idioma y nivel. Los mismos que el alumno ve en &quot;Materiales&quot;.
-              </div>
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse text-[12.5px]">
-                  <TableHead cols={["Documento", "Idioma", "Nivel", "Tipo", "Estado"]} />
-                  <tbody>
-                    {[
-                      ["Pasado simple — irregulares", "Inglés", "A2", "Gramática", "pub"],
-                      ["Vocabulario — en el supermercado", "Inglés", "A1", "Vocabulario", "pub"],
-                      ["Business English — reuniones", "Inglés", "B2", "Lección", "pub"],
-                      ["Presente perfecto", "Inglés", "B1", "Gramática", "draft"],
-                      ["Verbos de acción — niños", "Inglés", "A1", "Vocabulario", "draft"],
-                    ].map((row) => (
-                      <tr key={row[0]}>
-                        <td className="px-2.5 py-2.5 border-b border-line text-text">{row[0]}</td>
-                        <td className="px-2.5 py-2.5 border-b border-line text-text">{row[1]}</td>
-                        <td className="px-2.5 py-2.5 border-b border-line">
-                          <Pill variant="a1">{row[2]}</Pill>
-                        </td>
-                        <td className="px-2.5 py-2.5 border-b border-line text-text">{row[3]}</td>
-                        <td className="px-2.5 py-2.5 border-b border-line">
-                          <Pill variant={row[4] === "pub" ? "pub" : "draft"}>
-                            {row[4] === "pub" ? "Publicado" : "Borrador"}
-                          </Pill>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
+          {tab === "docs" && <MaterialsPanel />}
 
           {tab === "pruebas" && (
             <div>
@@ -545,45 +464,9 @@ export default function Admin() {
             </div>
           )}
 
-          {tab === "correos" && (
-            <div>
-              <h3 className="text-[19px] font-bold mb-1 text-text">Plantillas de correo</h3>
-              <div className="text-[12.5px] text-text-soft mb-[18px]">
-                Así se ven los correos que Prixo envía, con tu marca (logo, color ámbar).
-                Hoy las plantillas viven en el código (<span className="font-mono text-[11.5px] text-amber bg-ground-raised-2 border border-line rounded px-1.5 py-0.5">src/lib/emailTemplates.ts</span>) —
-                pedime un cambio de texto o de diseño y lo actualizo. Editarlas en vivo
-                desde acá va a quedar disponible cuando conectemos la base de datos.
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {EMAIL_TEMPLATES.map((t) => (
-                  <div key={t.key} className="panel overflow-hidden">
-                    <div className="p-3.5 border-b border-line flex items-start justify-between gap-3">
-                      <div className="min-w-0">
-                        <div className="font-semibold text-[13px] text-text">{t.name}</div>
-                        <div className="text-[11px] text-text-faint mt-0.5">{t.trigger}</div>
-                      </div>
-                      <span
-                        className={`shrink-0 data-label px-2.5 py-1 rounded-[var(--radius-chip)] font-bold ${
-                          t.active ? "bg-cyan-tint text-cyan" : "bg-ground-raised-2 text-text-faint"
-                        }`}
-                      >
-                        {t.active ? "Activo" : "Pendiente"}
-                      </span>
-                    </div>
-                    <div className="text-[11px] text-text-soft px-3.5 pt-2.5 pb-1">{t.activeNote}</div>
-                    <div className="p-3">
-                      <iframe
-                        title={t.name}
-                        srcDoc={t.html}
-                        sandbox=""
-                        className="w-full h-[280px] rounded-[8px] border border-line bg-white"
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+          {tab === "correos" && <EmailTemplatesPanel />}
+
+          {tab === "fuentes" && <KnowledgeSourcesPanel />}
 
           {tab === "conectores" && (
             <div>

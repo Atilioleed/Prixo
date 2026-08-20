@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { sendEmail, emailConfigured } from "@/lib/email";
-import { classScheduledEmail } from "@/lib/emailTemplates";
+import { buildEmail } from "@/lib/emailTemplateStore";
 
 interface ConfirmBody {
   date: string;
@@ -31,12 +31,11 @@ export async function POST(req: NextRequest) {
   }
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://prixo.vercel.app";
-  const { subject, html } = classScheduledEmail({
-    name: session.user?.name ?? undefined,
-    date: body.date,
-    time: body.time,
-    siteUrl,
-  });
+  const { subject, html } = await buildEmail(
+    "clase-agendada",
+    { name: session.user?.name ?? "", date: body.date, time: body.time },
+    siteUrl
+  );
 
   const result = await sendEmail({ to, subject, html });
 

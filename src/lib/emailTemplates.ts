@@ -6,6 +6,23 @@
 // layout, inline styles only, and a light background — the safe, standard
 // approach for transactional email that still reads as "Prixo" via the
 // amber accent, the logo mark, and the voice.
+//
+// Templates are plain data (DEFAULT_TEMPLATES) with {{token}} placeholders,
+// not hardcoded per-email functions — that's what lets Panel admin ->
+// Plantillas de correo edit them (stored as overrides in the database) and
+// have this same file render both the live default and a saved edit.
+
+export type TemplateKey = "clase-agendada" | "recordatorio" | "bienvenida" | "clave-actualizada";
+
+export interface TemplateFields {
+  subject: string;
+  title: string;
+  /** May contain {{name}}, {{date}}, {{time}} tokens — substituted at render time. */
+  bodyHtml: string;
+  ctaLabel: string;
+  /** Relative path, combined with siteUrl at render time. */
+  ctaPath: string;
+}
 
 const AMBER = "#ffb020";
 const INK = "#1a1400";
@@ -14,12 +31,12 @@ const TEXT_SOFT = "#5c6579";
 const BORDER = "#e7e3d8";
 const BG = "#f7f5ef";
 
-function escapeHtml(s: string) {
+export function escapeHtml(s: string) {
   return s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]!));
 }
 
 /** The shared shell every Prixo email is rendered inside — logo, card, footer. */
-function emailShell(opts: { preheader: string; title: string; bodyHtml: string; ctaLabel?: string; ctaUrl?: string }): string {
+export function emailShell(opts: { preheader: string; title: string; bodyHtml: string; ctaLabel?: string; ctaUrl?: string }): string {
   const { preheader, title, bodyHtml, ctaLabel, ctaUrl } = opts;
 
   return `<!doctype html>
@@ -75,65 +92,92 @@ function emailShell(opts: { preheader: string; title: string; bodyHtml: string; 
 </html>`;
 }
 
-export function classScheduledEmail(opts: { name?: string; date: string; time: string; siteUrl: string }) {
-  const greeting = opts.name ? `Hola ${escapeHtml(opts.name)},` : "Hola,";
-  return {
+export const DEFAULT_TEMPLATES: Record<TemplateKey, TemplateFields> = {
+  "clase-agendada": {
     subject: "Tu clase en Prixo está agendada",
-    html: emailShell({
-      preheader: `Tu clase quedó agendada para el ${opts.date} a las ${opts.time}.`,
-      title: "Clase confirmada",
-      bodyHtml: `<p style="margin:0 0 12px;">${greeting}</p>
-        <p style="margin:0 0 12px;">Tu sesión de práctica quedó agendada para el <strong style="color:${TEXT};">${escapeHtml(opts.date)}</strong> a las <strong style="color:${TEXT};">${escapeHtml(opts.time)}</strong>.</p>
-        <p style="margin:0;">Te esperamos — si necesitas reprogramarla, puedes hacerlo desde tu panel.</p>`,
-      ctaLabel: "Ver mi panel",
-      ctaUrl: `${opts.siteUrl}/app`,
-    }),
-  };
-}
-
-export function classReminderEmail(opts: { name?: string; date: string; time: string; siteUrl: string }) {
-  const greeting = opts.name ? `Hola ${escapeHtml(opts.name)},` : "Hola,";
-  return {
+    title: "Clase confirmada",
+    bodyHtml: `<p style="margin:0 0 12px;">Hola {{name}},</p>
+      <p style="margin:0 0 12px;">Tu sesión de práctica quedó agendada para el <strong style="color:${TEXT};">{{date}}</strong> a las <strong style="color:${TEXT};">{{time}}</strong>.</p>
+      <p style="margin:0;">Te esperamos — si necesitas reprogramarla, puedes hacerlo desde tu panel.</p>`,
+    ctaLabel: "Ver mi panel",
+    ctaPath: "/app",
+  },
+  recordatorio: {
     subject: "Recordatorio: tu clase en Prixo es pronto",
-    html: emailShell({
-      preheader: `Tu clase es el ${opts.date} a las ${opts.time}.`,
-      title: "Tu clase se acerca",
-      bodyHtml: `<p style="margin:0 0 12px;">${greeting}</p>
-        <p style="margin:0 0 12px;">Este es un recordatorio de tu sesión de práctica el <strong style="color:${TEXT};">${escapeHtml(opts.date)}</strong> a las <strong style="color:${TEXT};">${escapeHtml(opts.time)}</strong>.</p>
-        <p style="margin:0;">Aprovechá para repasar el temario de tu etapa actual antes de entrar.</p>`,
-      ctaLabel: "Entrar a mi clase",
-      ctaUrl: `${opts.siteUrl}/app?tab=chat`,
-    }),
-  };
-}
-
-export function accountWelcomeEmail(opts: { name?: string; siteUrl: string }) {
-  const greeting = opts.name ? `Hola ${escapeHtml(opts.name)},` : "Hola,";
-  return {
+    title: "Tu clase se acerca",
+    bodyHtml: `<p style="margin:0 0 12px;">Hola {{name}},</p>
+      <p style="margin:0 0 12px;">Este es un recordatorio de tu sesión de práctica el <strong style="color:${TEXT};">{{date}}</strong> a las <strong style="color:${TEXT};">{{time}}</strong>.</p>
+      <p style="margin:0;">Aprovecha para repasar el temario de tu etapa actual antes de entrar.</p>`,
+    ctaLabel: "Entrar a mi clase",
+    ctaPath: "/app?tab=chat",
+  },
+  bienvenida: {
     subject: "Bienvenido a Prixo",
-    html: emailShell({
-      preheader: "Tu cuenta de Prixo está lista.",
-      title: "Tu cuenta está lista",
-      bodyHtml: `<p style="margin:0 0 12px;">${greeting}</p>
-        <p style="margin:0;">Ya puedes armar tu plan de estudio y empezar a practicar con tu tutor de IA.</p>`,
-      ctaLabel: "Empezar",
-      ctaUrl: `${opts.siteUrl}/app`,
-    }),
-  };
-}
-
-export function passwordChangedEmail(opts: { name?: string; siteUrl: string }) {
-  const greeting = opts.name ? `Hola ${escapeHtml(opts.name)},` : "Hola,";
-  return {
+    title: "Tu cuenta está lista",
+    bodyHtml: `<p style="margin:0 0 12px;">Hola {{name}},</p>
+      <p style="margin:0;">Ya puedes armar tu plan de estudio y empezar a practicar con tu tutor de IA.</p>`,
+    ctaLabel: "Empezar",
+    ctaPath: "/app",
+  },
+  "clave-actualizada": {
     subject: "Tu contraseña de Prixo fue actualizada",
+    title: "Contraseña actualizada",
+    bodyHtml: `<p style="margin:0 0 12px;">Hola {{name}},</p>
+      <p style="margin:0 0 12px;">Confirmamos que tu contraseña se cambió correctamente.</p>
+      <p style="margin:0;">Si no fuiste tú, escríbenos a soporte@prixo.app de inmediato.</p>`,
+    ctaLabel: "Ir a mi cuenta",
+    ctaPath: "/app",
+  },
+};
+
+export const TEMPLATE_META: Record<
+  TemplateKey,
+  { name: string; trigger: string; sampleVars: Record<string, string>; active: boolean; activeNote: string }
+> = {
+  "clase-agendada": {
+    name: "Clase agendada",
+    trigger: "Se envía apenas el alumno confirma un horario en “Mis clases agendadas”.",
+    sampleVars: { name: "Martina", date: "2026-09-02", time: "16:00" },
+    active: true,
+    activeNote: "Activo — conectado a Resend hoy.",
+  },
+  recordatorio: {
+    name: "Recordatorio de clase",
+    trigger: "Pensado para dispararse unas horas antes de la clase agendada.",
+    sampleVars: { name: "Martina", date: "2026-09-02", time: "16:00" },
+    active: false,
+    activeNote: "Pendiente — falta un disparador programado (ej. Vercel Cron) que revise las clases próximas.",
+  },
+  bienvenida: {
+    name: "Bienvenida a la cuenta",
+    trigger: "Pensado para dispararse al crear una cuenta nueva.",
+    sampleVars: { name: "Martina" },
+    active: false,
+    activeNote: "Pendiente — hoy el alta por correo es demo y no verifica nada; necesita cuentas reales.",
+  },
+  "clave-actualizada": {
+    name: "Contraseña actualizada",
+    trigger: "Pensado para dispararse cuando un alumno cambia su contraseña.",
+    sampleVars: { name: "Martina" },
+    active: false,
+    activeNote: "Pendiente — los alumnos todavía no tienen contraseña propia (solo el acceso admin la tiene).",
+  },
+};
+
+/** Substitutes {{token}} placeholders and wraps the result in the branded shell. */
+export function renderTemplate(fields: TemplateFields, vars: Record<string, string>, siteUrl: string) {
+  let body = fields.bodyHtml;
+  for (const [key, value] of Object.entries(vars)) {
+    body = body.replaceAll(`{{${key}}}`, escapeHtml(value));
+  }
+  return {
+    subject: fields.subject,
     html: emailShell({
-      preheader: "Confirmamos el cambio de tu contraseña.",
-      title: "Contraseña actualizada",
-      bodyHtml: `<p style="margin:0 0 12px;">${greeting}</p>
-        <p style="margin:0 0 12px;">Confirmamos que tu contraseña se cambió correctamente.</p>
-        <p style="margin:0;">Si no fuiste tú, escríbenos a soporte@prixo.app de inmediato.</p>`,
-      ctaLabel: "Ir a mi cuenta",
-      ctaUrl: `${opts.siteUrl}/app`,
+      preheader: fields.subject,
+      title: fields.title,
+      bodyHtml: body,
+      ctaLabel: fields.ctaLabel,
+      ctaUrl: fields.ctaPath ? `${siteUrl}${fields.ctaPath}` : undefined,
     }),
   };
 }

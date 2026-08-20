@@ -431,3 +431,12 @@ export function IconLogout({ size, className, strokeWidth }: IconProps) {
     </svg>
   );
 }
+
+export function IconLink({ size, className, strokeWidth }: IconProps) {
+  return (
+    <svg {...base(size, strokeWidth)} className={className}>
+      <path d="M9.5 14.5 14.5 9.5" />
+      <path d="M11 6.5l1.5-1.5a4 4 0 0 1 5.5 5.5l-2 2M13 17.5 11.5 19a4 4 0 0 1-5.5-5.5l2-2" />
+    </svg>
+  );
+}
