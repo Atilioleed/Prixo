@@ -16,6 +16,7 @@ export async function GET() {
     aiProviders: getProviderStatuses(),
     email: { configured: emailConfigured() },
     googleAuth: { configured: googleConfigured },
+    googleCalendar: { configured: googleConfigured },
     database: { configured: dbConfigured() },
   });
 }

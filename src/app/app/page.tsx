@@ -18,8 +18,15 @@ import OnboardingWizard from "@/components/onboarding/OnboardingWizard";
 
 const VALID_TABS: TabKey[] = ["planning", "chat", "materials", "personalize", "user", "admin"];
 
+const CALENDAR_BANNERS: Record<string, { text: string; tone: "cyan" | "red" }> = {
+  connected: { text: "Google Calendar conectado — tus próximas clases se agendan solas.", tone: "cyan" },
+  error: { text: "No se pudo conectar Google Calendar. Intenta de nuevo desde \"Agendar clase\".", tone: "red" },
+  "not-configured": { text: "Google Calendar todavía no está configurado por el equipo de Prixo.", tone: "red" },
+};
+
 export default function AppShell() {
   const [tab, setTabState] = useState<TabKey>("user");
+  const [calendarBanner, setCalendarBanner] = useState<{ text: string; tone: "cyan" | "red" } | null>(null);
   const { status } = useSession();
   const router = useRouter();
   const { profile, update, ready } = useTutorProfile();
@@ -32,10 +39,19 @@ export default function AppShell() {
   useEffect(() => {
     // Plain browser API, not the Next.js hook — lets a bookmarked link like
     // /app?tab=admin land directly on that tab without a Suspense boundary.
-    const requested = new URLSearchParams(window.location.search).get("tab") as TabKey | null;
+    const params = new URLSearchParams(window.location.search);
+    const requested = params.get("tab") as TabKey | null;
     // One-shot read of the initial URL on mount, not a state sync loop.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     if (requested && VALID_TABS.includes(requested)) setTabState(requested);
+
+    const calendarResult = params.get("calendar");
+    if (calendarResult && CALENDAR_BANNERS[calendarResult]) {
+      setCalendarBanner(CALENDAR_BANNERS[calendarResult]);
+      params.delete("calendar");
+      const rest = params.toString();
+      window.history.replaceState(null, "", rest ? `/app?${rest}` : "/app");
+    }
   }, []);
 
   function setTab(next: TabKey) {
@@ -59,6 +75,21 @@ export default function AppShell() {
   return (
     <div className="max-w-[1180px] mx-auto px-5 pt-7 pb-20">
       <TopBar active={tab} onChange={setTab} right={<UserMenu />} showAdmin={isAdmin === true} />
+
+      {calendarBanner && (
+        <div
+          className={`flex items-center justify-between gap-3 rounded-[10px] border px-4 py-2.5 mb-5 text-[12.5px] font-semibold ${
+            calendarBanner.tone === "cyan"
+              ? "border-cyan-dim/40 bg-cyan-tint text-cyan"
+              : "border-red/30 bg-red-tint text-red"
+          }`}
+        >
+          {calendarBanner.text}
+          <button onClick={() => setCalendarBanner(null)} className="shrink-0 opacity-70 hover:opacity-100">
+            ✕
+          </button>
+        </div>
+      )}
 
       <div key={tab} className="animate-rise">
         {tab === "planning" && (

@@ -41,3 +41,18 @@ export const knowledgeSources = pgTable("knowledge_sources", {
   active: boolean("active").notNull().default(true),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
+
+// Per-student Google Calendar connection — a separate OAuth grant from
+// login (see src/lib/googleCalendar.ts and src/app/api/connectors/
+// google-calendar/*), so a student can log in with plain email and still
+// connect their calendar independently. Keyed by email, matching how
+// session.user.email identifies the current user everywhere else in the
+// app (there is no separate users table).
+export const googleCalendarTokens = pgTable("google_calendar_tokens", {
+  email: text("email").primaryKey(),
+  accessToken: text("access_token").notNull(),
+  refreshToken: text("refresh_token").notNull(),
+  expiresAt: timestamp("expires_at").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});

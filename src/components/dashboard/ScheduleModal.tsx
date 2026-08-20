@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSchedule, ReminderChannel } from "@/context/ScheduleContext";
 import { useSessions } from "@/context/SessionsContext";
 import {
@@ -10,6 +10,7 @@ import {
   IconPhoneApp,
   IconMessageDots,
   IconMail,
+  IconCalendar,
 } from "@/components/icons/Icon";
 
 const WEEKDAYS = ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"];
@@ -43,6 +44,16 @@ export default function ScheduleModal({ open, onClose }: { open: boolean; onClos
   const [channels, setChannels] = useState<Set<ReminderChannel>>(new Set(["app", "email"]));
   const [confirmed, setConfirmed] = useState(false);
   const [emailStatus, setEmailStatus] = useState<"idle" | "sending" | "sent" | "failed">("idle");
+  const [calendarConnected, setCalendarConnected] = useState(false);
+  const [calendarStatus, setCalendarStatus] = useState<"idle" | "creating" | "created" | "failed">("idle");
+
+  useEffect(() => {
+    if (!open) return;
+    fetch("/api/connectors/google-calendar/status")
+      .then((r) => r.json())
+      .then((data) => setCalendarConnected(!!data.connected))
+      .catch(() => {});
+  }, [open]);
 
   if (!open) return null;
 
@@ -81,17 +92,26 @@ export default function ScheduleModal({ open, onClose }: { open: boolean; onClos
     logSession("practice", `Clase agendada para el ${selectedDate} ${selectedTime}`);
     setConfirmed(true);
 
-    if (channels.has("email")) {
-      setEmailStatus("sending");
-      fetch("/api/reminders/confirm", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ date: selectedDate, time: selectedTime }),
+    const wantsEmail = channels.has("email");
+    if (!wantsEmail && !calendarConnected) return;
+
+    if (wantsEmail) setEmailStatus("sending");
+    if (calendarConnected) setCalendarStatus("creating");
+
+    fetch("/api/reminders/confirm", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ date: selectedDate, time: selectedTime, sendEmail: wantsEmail }),
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        if (wantsEmail) setEmailStatus(data.sent ? "sent" : "failed");
+        if (calendarConnected) setCalendarStatus(data.calendarCreated ? "created" : "failed");
       })
-        .then((r) => r.json())
-        .then((data) => setEmailStatus(data.sent ? "sent" : "failed"))
-        .catch(() => setEmailStatus("failed"));
-    }
+      .catch(() => {
+        if (wantsEmail) setEmailStatus("failed");
+        if (calendarConnected) setCalendarStatus("failed");
+      });
   }
 
   function close() {
@@ -99,6 +119,7 @@ export default function ScheduleModal({ open, onClose }: { open: boolean; onClos
     setSelectedDate(null);
     setSelectedTime(null);
     setEmailStatus("idle");
+    setCalendarStatus("idle");
     onClose();
   }
 
@@ -126,14 +147,25 @@ export default function ScheduleModal({ open, onClose }: { open: boolean; onClos
             <p className="text-xs text-text-faint mb-1.5">
               Te avisamos por: {Array.from(channels).map((c) => CHANNELS.find((x) => x.key === c)?.label).join(", ") || "ningún canal seleccionado"}
             </p>
-            {channels.has("email") && (
-              <p className="text-xs text-text-faint mb-6">
-                {emailStatus === "sending" && "Enviando correo de confirmación…"}
-                {emailStatus === "sent" && "Correo de confirmación enviado."}
-                {emailStatus === "failed" && "No se pudo enviar el correo (revisa RESEND_API_KEY en Panel admin → Integraciones)."}
-              </p>
+            {(channels.has("email") || calendarConnected) && (
+              <div className="text-xs text-text-faint mb-6 flex flex-col gap-1">
+                {channels.has("email") && (
+                  <p>
+                    {emailStatus === "sending" && "Enviando correo de confirmación…"}
+                    {emailStatus === "sent" && "Correo de confirmación enviado."}
+                    {emailStatus === "failed" && "No se pudo enviar el correo (revisa RESEND_API_KEY en Panel admin → Integraciones)."}
+                  </p>
+                )}
+                {calendarConnected && (
+                  <p>
+                    {calendarStatus === "creating" && "Creando evento en tu Google Calendar…"}
+                    {calendarStatus === "created" && "Evento creado en tu Google Calendar."}
+                    {calendarStatus === "failed" && "No se pudo crear el evento en Google Calendar."}
+                  </p>
+                )}
+              </div>
             )}
-            {!channels.has("email") && <div className="mb-6" />}
+            {!channels.has("email") && !calendarConnected && <div className="mb-6" />}
             <button
               onClick={close}
               className="border-none px-5 py-2.5 rounded-[10px] bg-amber text-[#1a1400] font-semibold text-sm"
@@ -228,6 +260,24 @@ export default function ScheduleModal({ open, onClose }: { open: boolean; onClos
                   </button>
                 ))}
               </div>
+
+              <div className="flex items-center justify-between gap-3 border border-line rounded-[10px] px-3.5 py-2.5 mb-5">
+                <div className="flex items-center gap-2 text-xs text-text-soft">
+                  <IconCalendar size={14} className={calendarConnected ? "text-cyan" : "text-text-faint"} />
+                  {calendarConnected
+                    ? "Google Calendar conectado — se crea el evento automáticamente."
+                    : "Conecta tu Google Calendar para que la clase se agende sola."}
+                </div>
+                {!calendarConnected && (
+                  <a
+                    href="/api/connectors/google-calendar/start"
+                    className="shrink-0 text-xs font-semibold text-amber hover:text-text"
+                  >
+                    Conectar
+                  </a>
+                )}
+              </div>
+
               <button
                 onClick={confirm}
                 disabled={!selectedDate || !selectedTime}

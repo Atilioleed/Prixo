@@ -81,7 +81,7 @@ const PLAN_BREAKDOWN = [
 ];
 
 const CONNECTORS: { icon: typeof IconCalendar; name: string; desc: string; active: boolean; accent: FlowRowAccent }[] = [
-  { icon: IconCalendar, name: "Google Calendar", desc: "Sincroniza las clases que el alumno agenda desde su panel — pendiente, necesita OAuth de Google Calendar además del login", active: false, accent: "amber" },
+  { icon: IconCalendar, name: "Google Calendar", desc: "Sincroniza las clases que el alumno agenda desde su panel — activo. Cada alumno lo conecta con un click desde \"Agendar clase\", no requiere nada de tu parte por alumno.", active: true, accent: "amber" },
   { icon: IconMoney, name: "Stripe", desc: "Cobro de suscripciones y facturación", active: false, accent: "seal-lime" },
   { icon: IconWhatsapp, name: "WhatsApp Business (Twilio)", desc: "Envía los recordatorios de clase que el alumno eligió por WhatsApp", active: false, accent: "seal-violet" },
   { icon: IconMail, name: "SMS (Twilio)", desc: "Envía los recordatorios de clase por mensaje de texto", active: false, accent: "pink" },
@@ -103,6 +103,7 @@ interface ApiStatus {
   aiProviders: ProviderStatus[];
   email: { configured: boolean };
   googleAuth: { configured: boolean };
+  googleCalendar: { configured: boolean };
 }
 
 function money(n: number) {
@@ -459,6 +460,16 @@ export default function Admin() {
                     meta={apiStatus.googleAuth.configured ? "Configurada" : "No configurada — AUTH_GOOGLE_ID / AUTH_GOOGLE_SECRET"}
                     active={apiStatus.googleAuth.configured}
                   />
+                  <FlowRow
+                    icon={<IconCalendar size={16} />}
+                    name="Google Calendar — sincronización de clases"
+                    meta={
+                      apiStatus.googleCalendar.configured
+                        ? "Configurada — cada alumno la conecta desde \"Agendar clase\""
+                        : "No configurada — usa las mismas AUTH_GOOGLE_ID / AUTH_GOOGLE_SECRET"
+                    }
+                    active={apiStatus.googleCalendar.configured}
+                  />
                 </>
               )}
             </div>
@@ -472,11 +483,11 @@ export default function Admin() {
             <div>
               <h3 className="text-[19px] font-bold mb-1 text-text">Conectores</h3>
               <div className="text-[12.5px] text-text-soft mb-[18px]">
-                Integraciones con otras herramientas. Los agentes de IA y el correo (Resend)
-                ya funcionan de verdad — ver Panel admin → Integraciones. El resto de acá
-                son conectores conceptuales todavía sin construir: cuando un alumno elige
-                avisos por WhatsApp, SMS o notificación push, hoy quedan guardados como
-                recordatorio interno, sin enviarse.
+                Integraciones con otras herramientas. Los agentes de IA, el correo (Resend) y
+                Google Calendar ya funcionan de verdad — ver Panel admin → Integraciones. El
+                resto de acá son conectores conceptuales todavía sin construir: cuando un
+                alumno elige avisos por WhatsApp, SMS o notificación push, hoy quedan
+                guardados como recordatorio interno, sin enviarse.
               </div>
               {CONNECTORS.map((c) => (
                 <FlowRow key={c.name} icon={<c.icon size={16} />} name={c.name} meta={c.desc} active={c.active} accent={c.accent} />
