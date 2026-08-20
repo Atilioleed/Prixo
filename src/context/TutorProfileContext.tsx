@@ -1,67 +1,21 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
+import { DEFAULT_PROFILE, type TutorProfile } from "@/lib/tutorProfile";
 
-export type WhoKey = "nino" | "joven" | "viajero" | "profesional" | "negociador";
-export type AgeRange = "nino" | "adolescente" | "adulto" | "adulto_mayor";
-export type SexOption = "femenino" | "masculino" | "prefiero_no_decir";
-export type LevelKey = "principiante" | "basico" | "intermedio" | "avanzado" | "fluido";
-
-export interface TutorProfile {
-  displayName: string;
-  targetLanguage: string;
-  nativeLanguage: string;
-  who: WhoKey;
-  ageRange: AgeRange;
-  sex: SexOption;
-  currentLevel: LevelKey;
-  placementScore: number | null;
-  planGoal: string;
-  avatarName: string;
-  accent: string;
-  formalCercano: number; // 0 = formal, 100 = cercano
-  pacienteExigente: number; // 0 = paciente, 100 = exigente
-  goal: string;
-  scenario: string;
-  /**
-   * Curriculum progress (index into the current stages array), keyed by
-   * target language — so switching from German to English to prep a
-   * business deal doesn't wipe out German progress; each language keeps
-   * its own place and picks back up if the learner returns to it.
-   */
-  progressByLanguage: Record<string, number>;
-  onboarded: boolean;
-}
-
-export const DEFAULT_PROFILE: TutorProfile = {
-  displayName: "",
-  targetLanguage: "Inglés",
-  nativeLanguage: "Español",
-  who: "nino",
-  ageRange: "adulto",
-  sex: "prefiero_no_decir",
-  currentLevel: "basico",
-  placementScore: null,
-  planGoal: "general",
-  avatarName: "Max",
-  accent: "Americano",
-  formalCercano: 30,
-  pacienteExigente: 70,
-  goal: "Reuniones y negocios",
-  scenario: "Negociar precio con proveedor",
-  progressByLanguage: { Inglés: 1 },
-  onboarded: false,
-};
-
-/** Current stage index for whatever language the learner has active right now. */
-export function getStageIndex(profile: TutorProfile): number {
-  return profile.progressByLanguage[profile.targetLanguage] ?? 0;
-}
-
-/** Patch to advance (or set) the stage for the learner's current language. */
-export function withStageIndex(profile: TutorProfile, index: number): Partial<TutorProfile> {
-  return { progressByLanguage: { ...profile.progressByLanguage, [profile.targetLanguage]: index } };
-}
+// Types/constants/pure helpers now live in src/lib/tutorProfile.ts (a plain
+// module, not "use client") so server code can import them too — re-exported
+// here so existing client-side imports from this file keep working.
+export {
+  DEFAULT_PROFILE,
+  getStageIndex,
+  withStageIndex,
+  type TutorProfile,
+  type WhoKey,
+  type AgeRange,
+  type SexOption,
+  type LevelKey,
+} from "@/lib/tutorProfile";
 
 interface Ctx {
   profile: TutorProfile;

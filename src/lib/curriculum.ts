@@ -1,4 +1,4 @@
-import type { AgeRange } from "@/context/TutorProfileContext";
+import type { AgeRange } from "@/lib/tutorProfile";
 
 export interface Stage {
   level: string;

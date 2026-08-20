@@ -3,7 +3,7 @@ import { generateWithFallback } from "@/lib/ai/generateWithFallback";
 import { hasAnyProviderConfigured } from "@/lib/ai/providers";
 import { buildPlanSystemPrompt } from "@/lib/planSystemPrompt";
 import { sendSlackAlert } from "@/lib/slack";
-import type { TutorProfile } from "@/context/TutorProfileContext";
+import type { TutorProfile } from "@/lib/tutorProfile";
 
 // Plan generation (with fallback across providers) can take well over
 // Vercel's default 10s function timeout — this raises the cap explicitly.

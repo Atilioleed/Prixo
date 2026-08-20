@@ -1,4 +1,4 @@
-import type { TutorProfile } from "@/context/TutorProfileContext";
+import type { TutorProfile } from "@/lib/tutorProfile";
 
 export function buildPlanSystemPrompt(profile: TutorProfile): string {
   return `Eres un planificador de aprendizaje de ${profile.targetLanguage} dentro de la app Prixo.

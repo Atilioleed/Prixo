@@ -1,4 +1,4 @@
-import type { AgeRange, SexOption, LevelKey } from "@/context/TutorProfileContext";
+import type { AgeRange, SexOption, LevelKey } from "@/lib/tutorProfile";
 import {
   IconOpenBook,
   IconMessageDots,

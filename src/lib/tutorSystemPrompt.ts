@@ -1,4 +1,4 @@
-import { getStageIndex, type TutorProfile, type WhoKey } from "@/context/TutorProfileContext";
+import { getStageIndex, type TutorProfile, type WhoKey } from "@/lib/tutorProfile";
 import type { LearningPlan } from "@/context/PlanContext";
 import { LEVEL_LABEL } from "@/lib/onboardingOptions";
 import { stagesFor } from "@/lib/curriculum";

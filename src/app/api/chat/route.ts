@@ -3,7 +3,7 @@ import { generateWithFallback } from "@/lib/ai/generateWithFallback";
 import { hasAnyProviderConfigured } from "@/lib/ai/providers";
 import { buildTutorSystemPrompt, buildReviewSystemPrompt } from "@/lib/tutorSystemPrompt";
 import { sendSlackAlert } from "@/lib/slack";
-import type { TutorProfile } from "@/context/TutorProfileContext";
+import type { TutorProfile } from "@/lib/tutorProfile";
 import type { LearningPlan } from "@/context/PlanContext";
 
 // Provider fallback (trying up to 5 providers in sequence on failure) can
