@@ -77,7 +77,7 @@ export default function AdminLoginPage() {
         </div>
 
         <p className="text-[11px] text-text-faint text-center mt-5">
-          ¿Sos alumno? <a href="/login" className="text-cyan hover:text-text">Volvé al acceso normal</a>.
+          ¿Eres alumno? <a href="/login" className="text-cyan hover:text-text">Vuelve al acceso normal</a>.
         </p>
       </div>
     </div>

@@ -276,11 +276,11 @@ export const MOTIVATIONAL_MESSAGES: Record<AgeRange, string[]> = {
   nino: [
     "¡Increíble! ¡Superaste la etapa como un campeón! 🎉",
     "¡Wow! Cada vez sabes más — ¡sigue así, crack!",
-    "¡Lo lograste! Tu tutor está súper orgulloso de vos.",
+    "¡Lo lograste! Tu tutor está súper orgulloso de ti.",
     "¡Nivel superado! Estás cada vez más cerca de ser un experto.",
   ],
   adolescente: [
-    "¡Etapa superada! Tu esfuerzo se nota — seguí así.",
+    "¡Etapa superada! Tu esfuerzo se nota — sigue así.",
     "Nivel completado. Cada vez te falta menos para dominarlo.",
     "¡Bien ahí! Ese avance no es casualidad, es constancia.",
     "¡Lo lograste! Un paso más cerca de tu objetivo real.",
@@ -294,7 +294,7 @@ export const MOTIVATIONAL_MESSAGES: Record<AgeRange, string[]> = {
   adulto_mayor: [
     "¡Felicitaciones! Completaste esta etapa con muy buen ritmo.",
     "Excelente avance — cada práctica suma, y se nota.",
-    "¡Lo lograste! Seguí a tu propio ritmo, vas muy bien.",
+    "¡Lo lograste! Sigue a tu propio ritmo, vas muy bien.",
     "Etapa superada — un logro más para celebrar.",
   ],
 };

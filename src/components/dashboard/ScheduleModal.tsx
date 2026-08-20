@@ -236,7 +236,7 @@ export default function ScheduleModal({ open, onClose }: { open: boolean; onClos
                 Agendar clase
               </button>
               <p className="text-[11px] text-text-faint mt-2.5 leading-relaxed">
-                Si elegís correo, te mandamos una confirmación real (vía Resend). WhatsApp,
+                Si eliges correo, te mandamos una confirmación real (vía Resend). WhatsApp,
                 SMS y las notificaciones push todavía necesitan conectar su proveedor (ver
                 Panel admin → Integraciones).
               </p>

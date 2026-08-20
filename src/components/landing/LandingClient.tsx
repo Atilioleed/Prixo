@@ -234,7 +234,7 @@ export default function LandingClient() {
           </h2>
           <p className="text-text-soft text-[14.5px] mb-10">
             Estas son las razones más comunes por las que la gente aprende un idioma —
-            elegí la tuya al crear tu cuenta y tu plan se arma en base a ella.
+            elige la tuya al crear tu cuenta y tu plan se arma en base a ella.
           </p>
           <div className="overflow-x-auto mb-10">
             <table className="w-full border-collapse text-[13.5px]">
@@ -280,7 +280,7 @@ export default function LandingClient() {
             Da el primer paso hoy
           </h2>
           <p className="text-text-soft max-w-xl mx-auto mb-7 text-[15px]">
-            Crea tu cuenta en segundos con Google o tu correo.
+            Crea tu cuenta en segundos con tu correo.
           </p>
           <Link
             href="/login"
@@ -293,7 +293,7 @@ export default function LandingClient() {
 
       <section className="relative border-t border-line py-10">
         <div className="max-w-[880px] mx-auto px-5">
-          <div className="data-label mb-3">¿Tenés dudas?</div>
+          <div className="data-label mb-3">¿Tienes dudas?</div>
           <div className="flex flex-wrap gap-4 text-[13.5px] font-semibold">
             <Link href="/faq" className="text-cyan hover:text-text">
               Ver preguntas frecuentes →

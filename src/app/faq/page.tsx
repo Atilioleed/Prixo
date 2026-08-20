@@ -9,7 +9,7 @@ import { LANGUAGES } from "@/lib/languageCodes";
 export const metadata: Metadata = {
   title: "Dudas comunes, resueltas",
   description:
-    "Respuestas sobre los idiomas que podés practicar en Prixo, notas de voz, videollamada, cuántos planes de estudio podés crear, privacidad de tus datos y precios.",
+    "Respuestas sobre los idiomas que puedes practicar en Prixo, notas de voz, videollamada, cuántos planes de estudio puedes crear, privacidad de tus datos y precios.",
   alternates: { canonical: "/faq" },
 };
 
@@ -17,18 +17,18 @@ const FAQS: { q: string; a: React.ReactNode; plain: string }[] = [
   {
     q: "¿Qué es Prixo?",
     plain:
-      "Prixo es una plataforma de aprendizaje de idiomas con un tutor de inteligencia artificial que conversa con vos, te corrige, arma un plan de estudio a partir de tu objetivo real (una entrevista de trabajo, un viaje, una negociación con un proveedor) y te ayuda a agendar y recordar tus clases.",
-    a: "Prixo es una plataforma de aprendizaje de idiomas con un tutor de inteligencia artificial que conversa con vos, te corrige, arma un plan de estudio a partir de tu objetivo real (una entrevista de trabajo, un viaje, una negociación con un proveedor) y te ayuda a agendar y recordar tus clases.",
+      "Prixo es una plataforma de aprendizaje de idiomas con un tutor de inteligencia artificial que conversa contigo, te corrige, arma un plan de estudio a partir de tu objetivo real (una entrevista de trabajo, un viaje, una negociación con un proveedor) y te ayuda a agendar y recordar tus clases.",
+    a: "Prixo es una plataforma de aprendizaje de idiomas con un tutor de inteligencia artificial que conversa contigo, te corrige, arma un plan de estudio a partir de tu objetivo real (una entrevista de trabajo, un viaje, una negociación con un proveedor) y te ayuda a agendar y recordar tus clases.",
   },
   {
     q: "¿En qué idiomas puedo practicar?",
     plain:
-      "Hoy podés aprender inglés, español, francés, alemán, portugués o italiano — los idiomas donde el tutor de IA rinde a nivel nativo. Elegís el idioma desde tu perfil, y el tutor conversa y corrige en ese idioma, adaptado a tu nivel.",
+      "Hoy puedes aprender inglés, español, francés, alemán, portugués o italiano — los idiomas donde el tutor de IA rinde a nivel nativo. Eliges el idioma desde tu perfil, y el tutor conversa y corrige en ese idioma, adaptado a tu nivel.",
     a: (
       <>
         <p>
-          Hoy podés aprender inglés, español, francés, alemán, portugués o italiano — los
-          idiomas donde el tutor de IA rinde a nivel nativo. Elegís el idioma desde tu perfil, y
+          Hoy puedes aprender inglés, español, francés, alemán, portugués o italiano — los
+          idiomas donde el tutor de IA rinde a nivel nativo. Eliges el idioma desde tu perfil, y
           el tutor conversa y corrige en ese idioma, adaptado a tu nivel.
         </p>
         <div className="overflow-x-auto mt-2">
@@ -59,14 +59,14 @@ const FAQS: { q: string; a: React.ReactNode; plain: string }[] = [
   {
     q: "¿Necesito hablar por micrófono o puedo escribir?",
     plain:
-      "Las dos opciones están disponibles. Podés escribir como en cualquier chat, o usar el micrófono para mandar una nota de voz real (se graba y se escucha, como en WhatsApp) que además se transcribe para que el tutor te corrija. Las respuestas de la IA también se pueden reproducir en voz alta.",
-    a: "Las dos opciones están disponibles. Podés escribir como en cualquier chat, o usar el micrófono para mandar una nota de voz real (se graba y se escucha, como en WhatsApp) que además se transcribe para que el tutor te corrija. Las respuestas de la IA también se pueden reproducir en voz alta.",
+      "Las dos opciones están disponibles. Puedes escribir como en cualquier chat, o usar el micrófono para mandar una nota de voz real (se graba y se escucha, como en WhatsApp) que además se transcribe para que el tutor te corrija. Las respuestas de la IA también se pueden reproducir en voz alta.",
+    a: "Las dos opciones están disponibles. Puedes escribir como en cualquier chat, o usar el micrófono para mandar una nota de voz real (se graba y se escucha, como en WhatsApp) que además se transcribe para que el tutor te corrija. Las respuestas de la IA también se pueden reproducir en voz alta.",
   },
   {
     q: "¿Cuántos planes de estudio puedo crear?",
     plain:
-      "Todos los que quieras, mientras tu cuenta esté activa. Cada plan se arma para un objetivo distinto (un viaje, una negociación, una entrevista) y podés tenerlos todos guardados a la vez, sin límite de cantidad.",
-    a: "Todos los que quieras, mientras tu cuenta esté activa. Cada plan se arma para un objetivo distinto (un viaje, una negociación, una entrevista) y podés tenerlos todos guardados a la vez, sin límite de cantidad.",
+      "Todos los que quieras, mientras tu cuenta esté activa. Cada plan se arma para un objetivo distinto (un viaje, una negociación, una entrevista) y puedes tenerlos todos guardados a la vez, sin límite de cantidad.",
+    a: "Todos los que quieras, mientras tu cuenta esté activa. Cada plan se arma para un objetivo distinto (un viaje, una negociación, una entrevista) y puedes tenerlos todos guardados a la vez, sin límite de cantidad.",
   },
   {
     q: "¿Hay videollamada con el tutor?",
@@ -77,8 +77,8 @@ const FAQS: { q: string; a: React.ReactNode; plain: string }[] = [
   {
     q: "¿Cómo arma Prixo mi plan de estudio?",
     plain:
-      "Al crear tu cuenta respondés un cuestionario corto (idioma, nivel, objetivo) y hacés un chequeo rápido de vocabulario. Con eso, y con el contexto real que le cuentes (por ejemplo: 'tengo que negociar en inglés con un proveedor en China'), el tutor genera objetivos de corto y largo plazo, hitos y escenarios de práctica (roleplay) para esa situación concreta.",
-    a: "Al crear tu cuenta respondés un cuestionario corto (idioma, nivel, objetivo) y hacés un chequeo rápido de vocabulario. Con eso, y con el contexto real que le cuentes (por ejemplo: 'tengo que negociar en inglés con un proveedor en China'), el tutor genera objetivos de corto y largo plazo, hitos y escenarios de práctica (roleplay) para esa situación concreta.",
+      "Al crear tu cuenta respondes un cuestionario corto (idioma, nivel, objetivo) y haces un chequeo rápido de vocabulario. Con eso, y con el contexto real que le cuentes (por ejemplo: 'tengo que negociar en inglés con un proveedor en China'), el tutor genera objetivos de corto y largo plazo, hitos y escenarios de práctica (roleplay) para esa situación concreta.",
+    a: "Al crear tu cuenta respondes un cuestionario corto (idioma, nivel, objetivo) y haces un chequeo rápido de vocabulario. Con eso, y con el contexto real que le cuentes (por ejemplo: 'tengo que negociar en inglés con un proveedor en China'), el tutor genera objetivos de corto y largo plazo, hitos y escenarios de práctica (roleplay) para esa situación concreta.",
   },
   {
     q: "¿Mis datos se guardan en algún lado?",
@@ -99,8 +99,8 @@ const FAQS: { q: string; a: React.ReactNode; plain: string }[] = [
   {
     q: "¿Puedo agendar clases y recibir recordatorios?",
     plain:
-      "Sí, desde tu panel podés elegir día y horario y elegir por qué canal querés que te avisemos. El correo ya te manda una confirmación real; WhatsApp, SMS y las notificaciones push todavía dependen de conectar su proveedor.",
-    a: "Sí, desde tu panel podés elegir día y horario y elegir por qué canal querés que te avisemos. El correo ya te manda una confirmación real; WhatsApp, SMS y las notificaciones push todavía dependen de conectar su proveedor.",
+      "Sí, desde tu panel puedes elegir día y horario y elegir por qué canal quieres que te avisemos. El correo ya te manda una confirmación real; WhatsApp, SMS y las notificaciones push todavía dependen de conectar su proveedor.",
+    a: "Sí, desde tu panel puedes elegir día y horario y elegir por qué canal quieres que te avisemos. El correo ya te manda una confirmación real; WhatsApp, SMS y las notificaciones push todavía dependen de conectar su proveedor.",
   },
   {
     q: "¿Prixo sirve para chicos?",
@@ -136,15 +136,15 @@ export default function FaqPage() {
 
       <p className="text-[14px] text-text-soft leading-relaxed">
         Esta página responde las dudas más comunes antes de crear una cuenta: qué idiomas
-        podés practicar, cómo funciona la voz y las notas de audio, cuántos planes de estudio
-        podés tener y qué pasa con tus datos.
+        puedes practicar, cómo funciona la voz y las notas de audio, cuántos planes de estudio
+        puedes tener y qué pasa con tus datos.
       </p>
 
       <TLDR
         items={[
           "6 idiomas disponibles hoy: inglés, español, francés, alemán, portugués e italiano.",
           "Texto y notas de voz reales funcionan ya — la videollamada llega en la etapa 2.",
-          "Podés crear todos los planes de estudio que quieras mientras tu cuenta esté activa.",
+          "Puedes crear todos los planes de estudio que quieras mientras tu cuenta esté activa.",
           "Tus datos viven en tu navegador hoy — nada se vende a terceros.",
         ]}
       />

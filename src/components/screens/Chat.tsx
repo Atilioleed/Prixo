@@ -301,7 +301,7 @@ export default function Chat() {
             <Note label="Texto o notas de voz">
               {voiceSupported
                 ? "El micrófono graba tu audio real (se escucha como nota de voz, igual que en WhatsApp) y en paralelo lo transcribe para que la IA te corrija. Cada respuesta de la IA tiene un botón para reproducirla en voz alta."
-                : "Tu navegador no soporta reconocimiento de voz nativo — probá en Chrome de escritorio o Android para el modo voz."}
+                : "Tu navegador no soporta reconocimiento de voz nativo — prueba en Chrome de escritorio o Android para el modo voz."}
             </Note>
             <Note label="Evaluación de pronunciación">
               Hoy la corrección se basa en lo que la IA entiende del texto transcripto. Un

@@ -98,23 +98,25 @@ export default function LoginPage() {
             Crea tu cuenta o inicia sesión para continuar.
           </p>
 
-          <div className="flex flex-col gap-2.5 mb-5">
-            <button
-              onClick={() => handleOAuth("google")}
-              disabled={!googleReady || submitting !== null}
-              title={googleReady ? undefined : "Falta configurar AUTH_GOOGLE_ID / AUTH_GOOGLE_SECRET en .env.local"}
-              className="lift w-full border border-line rounded-[10px] px-4 py-3 font-semibold text-sm bg-ground-raised-2 text-text flex items-center justify-center gap-2.5 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0 hover:border-line-bright"
-            >
-              Continuar con Google
-              {!googleReady && <span className="text-[10px] text-text-faint font-normal">(sin configurar)</span>}
-            </button>
-          </div>
+          {googleReady && (
+            <>
+              <div className="flex flex-col gap-2.5 mb-5">
+                <button
+                  onClick={() => handleOAuth("google")}
+                  disabled={submitting !== null}
+                  className="lift w-full border border-line rounded-[10px] px-4 py-3 font-semibold text-sm bg-ground-raised-2 text-text flex items-center justify-center gap-2.5 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0 hover:border-line-bright"
+                >
+                  Continuar con Google
+                </button>
+              </div>
 
-          <div className="flex items-center gap-3 mb-5">
-            <div className="flex-1 h-px bg-line" />
-            <span className="data-label">o con tu correo</span>
-            <div className="flex-1 h-px bg-line" />
-          </div>
+              <div className="flex items-center gap-3 mb-5">
+                <div className="flex-1 h-px bg-line" />
+                <span className="data-label">o con tu correo</span>
+                <div className="flex-1 h-px bg-line" />
+              </div>
+            </>
+          )}
 
           <form onSubmit={handleEmail} className="flex flex-col gap-2.5">
             <input

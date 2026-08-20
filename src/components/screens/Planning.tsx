@@ -64,7 +64,7 @@ export default function Planning({
     <>
       <ScreenHead
         title="Prepárate para lo que realmente te importa"
-        description="Cuéntale a la IA tu situación real — un negocio, un viaje, una entrevista — y arma un plan de estudio a tu medida. Podés crear todos los planes que quieras mientras tu cuenta esté activa."
+        description="Cuéntale a la IA tu situación real — un negocio, un viaje, una entrevista — y arma un plan de estudio a tu medida. Puedes crear todos los planes que quieras mientras tu cuenta esté activa."
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-8 items-start">
@@ -111,7 +111,7 @@ export default function Planning({
           </button>
           {error && <p className="text-xs text-red mt-2.5">{error}</p>}
           <p className="text-[11px] text-text-faint mt-2.5 leading-relaxed">
-            No hay límite de planes mientras tu cuenta esté activa — armá uno por cada
+            No hay límite de planes mientras tu cuenta esté activa — arma uno por cada
             objetivo distinto.
           </p>
         </div>
@@ -146,7 +146,7 @@ export default function Planning({
           {!activePlan && !loading && (
             <div className="border border-dashed border-line rounded-[14px] p-8 text-center text-text-faint text-sm">
               {plans.length > 0
-                ? "Elegí un plan de arriba para verlo, o armá uno nuevo a la izquierda."
+                ? "Elige un plan de arriba para verlo, o arma uno nuevo a la izquierda."
                 : "Tu plan va a aparecer acá — cuéntame tu situación a la izquierda para empezar."}
             </div>
           )}

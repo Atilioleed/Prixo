@@ -108,7 +108,7 @@ export default function GeneratingPlan({
         </div>
         {error && (
           <p className="text-xs text-red mb-4">
-            {error} — igual podés armar tu plan más tarde desde Planificación.
+            {error} — igual puedes armar tu plan más tarde desde Planificación.
           </p>
         )}
         <button

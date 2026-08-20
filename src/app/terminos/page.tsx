@@ -7,7 +7,7 @@ import TLDR from "@/components/TLDR";
 export const metadata: Metadata = {
   title: "Reglas de uso de la plataforma",
   description:
-    "Términos y condiciones de Prixo: qué podés esperar del tutor de IA, tus responsabilidades como usuario, y las reglas sobre cuentas, contenido generado por IA y planes.",
+    "Términos y condiciones de Prixo: qué puedes esperar del tutor de IA, tus responsabilidades como usuario, y las reglas sobre cuentas, contenido generado por IA y planes.",
   alternates: { canonical: "/terminos" },
 };
 
@@ -23,9 +23,9 @@ export default function TermsPage() {
 
       <TLDR
         items={[
-          "El tutor de IA puede equivocarse — usá tu criterio en contextos formales o de alto impacto.",
-          "Sos responsable de la confidencialidad de tu cuenta y de la información que nos das.",
-          "Mientras tu cuenta esté activa, podés crear todos los planes de estudio que quieras.",
+          "El tutor de IA puede equivocarse — usa tu criterio en contextos formales o de alto impacto.",
+          "Eres responsable de la confidencialidad de tu cuenta y de la información que nos das.",
+          "Mientras tu cuenta esté activa, puedes crear todos los planes de estudio que quieras.",
           "El diseño y la marca son de Prixo; tus conversaciones y tu progreso son tuyos.",
         ]}
       />
@@ -39,9 +39,9 @@ export default function TermsPage() {
 
       <InfoSection title="1. Aceptación de los términos">
         <p>
-          Al crear una cuenta o usar Prixo aceptás estos términos. Si no estás de acuerdo, no
-          uses la aplicación. Si creás o administrás una cuenta para un menor de edad, aceptás
-          estos términos en su nombre y sos responsable de su uso.
+          Al crear una cuenta o usar Prixo aceptas estos términos. Si no estás de acuerdo, no
+          uses la aplicación. Si creas o administras una cuenta para un menor de edad, aceptas
+          estos términos en su nombre y eres responsable de su uso.
         </p>
       </InfoSection>
 
@@ -56,7 +56,7 @@ export default function TermsPage() {
 
       <InfoSection title="3. Tu cuenta">
         <ul className="list-disc pl-5 flex flex-col gap-1.5">
-          <li>Sos responsable de mantener la confidencialidad de tu acceso.</li>
+          <li>Eres responsable de mantener la confidencialidad de tu acceso.</li>
           <li>La información que nos das (nombre, correo, perfil) debe ser real y estar actualizada.</li>
           <li>Podemos suspender cuentas que violen estos términos o que usen la plataforma de forma abusiva.</li>
         </ul>
@@ -100,8 +100,8 @@ export default function TermsPage() {
         </p>
         <p>
           Tu <strong className="text-text">plan de estudio</strong> es el que la IA arma para
-          vos según tu objetivo (un viaje, una negociación, un examen). Mientras tu
-          suscripción esté vigente, podés crear todos los planes de estudio que necesites —
+          ti según tu objetivo (un viaje, una negociación, un examen). Mientras tu
+          suscripción esté vigente, puedes crear todos los planes de estudio que necesites —
           uno por cada objetivo distinto que quieras trabajar — sin límite adicional.
         </p>
       </InfoSection>
@@ -109,7 +109,7 @@ export default function TermsPage() {
       <InfoSection title="8. Propiedad intelectual">
         <p>
           El diseño, la marca Prixo y el software de la plataforma nos pertenecen. El
-          contenido que vos generás en tus conversaciones (tus mensajes, tu progreso) es tuyo;
+          contenido que tú generas en tus conversaciones (tus mensajes, tu progreso) es tuyo;
           nos das permiso para procesarlo únicamente para brindarte el servicio.
         </p>
       </InfoSection>

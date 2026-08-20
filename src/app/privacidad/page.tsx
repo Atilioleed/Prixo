@@ -7,7 +7,7 @@ import TLDR from "@/components/TLDR";
 export const metadata: Metadata = {
   title: "Cómo cuidamos tus datos",
   description:
-    "Qué datos recopila Prixo, cómo se usan, con quién se comparten y qué derechos tenés sobre tu información — incluyendo el cuidado extra para cuentas de menores.",
+    "Qué datos recopila Prixo, cómo se usan, con quién se comparten y qué derechos tienes sobre tu información — incluyendo el cuidado extra para cuentas de menores.",
   alternates: { canonical: "/privacidad" },
 };
 
@@ -26,7 +26,7 @@ export default function PrivacyPage() {
         items={[
           "Hoy tus datos viven en el navegador (localStorage), no en un servidor central.",
           "El contenido de tus chats se envía al proveedor de IA que responde en cada mensaje, nunca se vende a terceros.",
-          "Podés pedir acceso, corrección o borrado de tus datos cuando quieras.",
+          "Puedes pedir acceso, corrección o borrado de tus datos cuando quieras.",
           "Hay cuidado extra declarado para cuentas de menores de edad.",
         ]}
       />
@@ -41,9 +41,9 @@ export default function PrivacyPage() {
       <InfoSection title="1. Qué datos recopilamos">
         <p>Según cómo uses Prixo, podemos recopilar:</p>
         <ul className="list-disc pl-5 flex flex-col gap-1.5">
-          <li>Datos de cuenta: nombre, correo electrónico, y si iniciás sesión con Google, la información básica de perfil que ese servicio comparte.</li>
-          <li>Datos de aprendizaje: el idioma que elegís, tu perfil (niño, joven, profesional, etc.), tu plan de estudio, tu progreso, y el contenido de tus conversaciones con el tutor de IA.</li>
-          <li>Grabaciones de voz, si usás el modo de voz o mensajes de audio, para transcribirlas y darte corrección.</li>
+          <li>Datos de cuenta: nombre, correo electrónico, y si inicias sesión con Google, la información básica de perfil que ese servicio comparte.</li>
+          <li>Datos de aprendizaje: el idioma que eliges, tu perfil (niño, joven, profesional, etc.), tu plan de estudio, tu progreso, y el contenido de tus conversaciones con el tutor de IA.</li>
+          <li>Grabaciones de voz, si usas el modo de voz o mensajes de audio, para transcribirlas y darte corrección.</li>
           <li>Datos técnicos básicos: tipo de dispositivo y navegador, para que la aplicación funcione correctamente.</li>
         </ul>
       </InfoSection>
@@ -52,9 +52,9 @@ export default function PrivacyPage() {
         <p>
           En esta versión del producto (MVP), la mayoría de tus datos —tu perfil, tu plan, tu
           progreso, tus clases agendadas— se guardan únicamente en el almacenamiento local de
-          tu propio navegador, no en un servidor. Esto significa que hoy nadie más que vos
+          tu propio navegador, no en un servidor. Esto significa que hoy nadie más que tú
           accede a esos datos, pero también que no se sincronizan entre dispositivos y se
-          pierden si borrás los datos del navegador. Cuando sumemos una base de datos real,
+          pierden si borras los datos del navegador. Cuando sumemos una base de datos real,
           esta sección se va a actualizar para reflejarlo.
         </p>
       </InfoSection>
@@ -63,29 +63,30 @@ export default function PrivacyPage() {
         <ul className="list-disc pl-5 flex flex-col gap-1.5">
           <li>Para que el tutor de IA genere respuestas, correcciones y planes de estudio a tu medida.</li>
           <li>Para mostrarte tu progreso, tu racha y tus recordatorios.</li>
-          <li>Para enviarte recordatorios de clases, si activás esa función y elegís un canal (correo, SMS, WhatsApp, notificaciones).</li>
+          <li>Para enviarte recordatorios de clases, si activas esa función y eliges un canal (correo, SMS, WhatsApp, notificaciones).</li>
           <li>Para mejorar el producto — nunca para venderlos a terceros con fines publicitarios.</li>
         </ul>
       </InfoSection>
 
       <InfoSection title="4. Con quién compartimos datos">
         <p>
-          El contenido de tus conversaciones se envía a <strong className="text-text">Anthropic</strong> (el
-          proveedor del modelo de IA que usa Prixo) para generar las respuestas del tutor,
-          bajo los términos de privacidad de ese proveedor. Si activás recordatorios por
-          correo, SMS o WhatsApp, el contacto necesario se comparte con el proveedor de
-          mensajería correspondiente únicamente para ese fin. No compartimos tus datos con
-          nadie más sin tu consentimiento, salvo que la ley lo exija.
+          El contenido de tus conversaciones se envía al proveedor de inteligencia artificial
+          que responda en ese momento (por ejemplo Google, Groq, Anthropic, OpenRouter u
+          OpenAI — Prixo usa varios y pasa al siguiente si uno falla) para generar las
+          respuestas del tutor, bajo los términos de privacidad de ese proveedor. Si activas
+          recordatorios por correo, SMS o WhatsApp, el contacto necesario se comparte con el
+          proveedor de mensajería correspondiente únicamente para ese fin. No compartimos tus
+          datos con nadie más sin tu consentimiento, salvo que la ley lo exija.
         </p>
       </InfoSection>
 
       <InfoSection title="5. Menores de edad">
         <p>
-          Prixo ofrece un perfil pensado para niños de 6 a 12 años. Si sos madre, padre o
-          tutor y creás o supervisás una cuenta familiar para un menor, entendés que sos
+          Prixo ofrece un perfil pensado para niños de 6 a 12 años. Si eres madre, padre o
+          tutor y creas o supervisas una cuenta familiar para un menor, entiendes que eres
           responsable de esa cuenta. No recopilamos intencionalmente más datos de un menor
-          que los necesarios para el servicio educativo. Si creés que un menor usó Prixo sin
-          tu consentimiento, contactanos para eliminar esa información. Más sobre cómo
+          que los necesarios para el servicio educativo. Si crees que un menor usó Prixo sin
+          tu consentimiento, contáctanos para eliminar esa información. Más sobre cómo
           funcionan los perfiles familiares en las{" "}
           <Link href="/faq" className="text-cyan hover:text-text">
             preguntas frecuentes
@@ -95,9 +96,9 @@ export default function PrivacyPage() {
       </InfoSection>
 
       <InfoSection title="6. Tus derechos">
-        <p>Podés pedirnos en cualquier momento:</p>
+        <p>Puedes pedirnos en cualquier momento:</p>
         <ul className="list-disc pl-5 flex flex-col gap-1.5">
-          <li>Acceder a los datos que tenemos sobre vos.</li>
+          <li>Acceder a los datos que tenemos sobre ti.</li>
           <li>Corregir información incorrecta.</li>
           <li>Eliminar tu cuenta y tus datos.</li>
           <li>Exportar tus datos en un formato legible.</li>

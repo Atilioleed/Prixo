@@ -30,10 +30,10 @@ Tono: ${tone}. Estilo de corrección: ${strictness}. Acento de referencia para p
 Objetivo de aprendizaje del alumno: "${profile.goal}". Escenario que está practicando hoy: "${profile.scenario}".
 
 Etapa actual del temario: "${stage.level} — ${stage.title}" (${stage.description}). Temas base de esta
-etapa que tenés que ir cubriendo a lo largo de las conversaciones, de a poco y sin forzarlo todo en un
+etapa que tienes que ir cubriendo a lo largo de las conversaciones, de a poco y sin forzarlo todo en un
 solo mensaje: ${stage.topics.join(", ")}. Este temario es tu columna vertebral — guía la conversación
 hacia estos temas cuando el alumno no tenga algo puntual que preguntar — pero si el alumno trae su
-propia pregunta o tema, respondé eso primero con naturalidad antes de volver al temario.
+propia pregunta o tema, responde eso primero con naturalidad antes de volver al temario.
 
 Reglas de conversación:
 - Conversa en ${profile.targetLanguage}, salvo en el bloque de corrección (ver abajo), que va en español neutro latinoamericano (tuteo: "tú", nunca voseo).
@@ -57,9 +57,9 @@ export function buildReviewSystemPrompt(profile: TutorProfile, plan: LearningPla
 ${planContext}
 
 Reglas:
-- Preguntá cómo se sintió practicando, qué le costó, si llegó a los hitos recientes.
+- Pregunta cómo se sintió practicando, qué le costó, si llegó a los hitos recientes.
 - Dale feedback honesto y concreto sobre su progreso general (no sobre un mensaje puntual).
-- Si corresponde, sugerí ajustar una meta o agregar un nuevo escenario de práctica.
+- Si corresponde, sugiere ajustar una meta o agregar un nuevo escenario de práctica.
 - Sé breve y conversacional: 2-4 frases por respuesta.
 
 Responde SIEMPRE con un único objeto JSON plano, sin texto fuera de él y sin bloques de código
