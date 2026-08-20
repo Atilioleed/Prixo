@@ -16,6 +16,7 @@
     "@ai-sdk/google": "^4.0.46",
     "@ai-sdk/groq": "^4.0.28",
     "@ai-sdk/openai": "^4.0.43",
+    "@react-pdf/renderer": "^4.6.1",
     "ai": "^7.0.69",
     "bcryptjs": "^3.0.3",
     "drizzle-orm": "^0.45.2",

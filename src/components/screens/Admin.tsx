@@ -7,6 +7,7 @@ import Pill from "@/components/Pill";
 import EmailTemplatesPanel from "@/components/admin/EmailTemplatesPanel";
 import MaterialsPanel from "@/components/admin/MaterialsPanel";
 import KnowledgeSourcesPanel from "@/components/admin/KnowledgeSourcesPanel";
+import TestsPanel from "@/components/admin/TestsPanel";
 import {
   IconLoop,
   IconTrend,
@@ -248,38 +249,7 @@ export default function Admin() {
 
           {tab === "docs" && <MaterialsPanel />}
 
-          {tab === "pruebas" && (
-            <div>
-              <h3 className="text-[19px] font-bold mb-1 text-text">Pruebas y evaluaciones</h3>
-              <div className="text-[12.5px] text-text-soft mb-[18px]">
-                Exámenes que miden avance y ajustan automáticamente el nivel del alumno —
-                son las mismas pruebas que gatillan avanzar de etapa en el Temario.
-              </div>
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse text-[12.5px]">
-                  <TableHead cols={["Prueba", "Idioma", "Nivel objetivo", "Preguntas", "Aprobación"]} />
-                  <tbody>
-                    {[
-                      ["Diagnóstico inicial", "Inglés", "A1–C1", "24", "—"],
-                      ["Cierre de unidad — Pasado simple", "Inglés", "A2", "12", "82%"],
-                      ["Simulacro entrevista laboral", "Inglés", "B2", "10", "67%"],
-                      ["Repaso de vocabulario semanal", "Inglés", "A1", "15", "91%"],
-                    ].map((row) => (
-                      <tr key={row[0]}>
-                        <td className="px-2.5 py-2.5 border-b border-line text-text">{row[0]}</td>
-                        <td className="px-2.5 py-2.5 border-b border-line text-text">{row[1]}</td>
-                        <td className="px-2.5 py-2.5 border-b border-line">
-                          <Pill variant="a1">{row[2]}</Pill>
-                        </td>
-                        <td className="px-2.5 py-2.5 border-b border-line text-text">{row[3]}</td>
-                        <td className="px-2.5 py-2.5 border-b border-line text-text">{row[4]}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
+          {tab === "pruebas" && <TestsPanel />}
 
           {tab === "usuarios" && (
             <div>

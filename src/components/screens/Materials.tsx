@@ -27,12 +27,6 @@ const MATERIALS: Material[] = [
     file: "/materials/ingles-para-ninos-familia.md",
   },
   {
-    title: "Vocabulario — en el supermercado",
-    level: "A1",
-    type: "Vocabulario",
-    file: "/materials/vocabulario-supermercado.md",
-  },
-  {
     title: "Pasado simple — verbos irregulares",
     level: "A2",
     type: "Gramática",

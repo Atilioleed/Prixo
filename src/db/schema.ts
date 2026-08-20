@@ -1,4 +1,4 @@
-import { pgTable, text, boolean, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, text, boolean, timestamp, integer } from "drizzle-orm/pg-core";
 
 // ---------------------------------------------------------------------------
 // Phase 1 of the database migration: the tables that unlock real admin CRUD
@@ -53,6 +53,25 @@ export const googleCalendarTokens = pgTable("google_calendar_tokens", {
   accessToken: text("access_token").notNull(),
   refreshToken: text("refresh_token").notNull(),
   expiresAt: timestamp("expires_at").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+// Real multiple-choice exams — what "Rendir" in the Temario actually gates
+// on, once a published test exists for a given language/ageRange/level/kind.
+// `questions` is JSON-stringified TestQuestion[] (see src/lib/tests.ts);
+// stored as text like learningMaterials.content, not jsonb, to match the
+// rest of this schema's conventions.
+export const tests = pgTable("tests", {
+  id: text("id").primaryKey(),
+  title: text("title").notNull(),
+  language: text("language").notNull().default("Inglés"),
+  ageRange: text("age_range").notNull().default("adulto"), // nino | adolescente | adulto | adulto_mayor
+  level: text("level").notNull(), // A1..C1, matches Stage.level in src/lib/curriculum.ts
+  kind: text("kind").notNull().default("final"), // "checkpoint" | "final"
+  passingScore: integer("passing_score").notNull().default(70), // percent
+  questions: text("questions").notNull(), // JSON.stringify(TestQuestion[])
+  status: text("status").notNull().default("draft"), // "draft" | "published"
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });

@@ -1,7 +1,13 @@
 import { NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
+import { pdf } from "@react-pdf/renderer";
 import { getDb, dbConfigured } from "@/db/client";
 import { learningMaterials } from "@/db/schema";
+import { parseMaterialContent } from "@/lib/materialContent";
+import { MaterialPdfDocument } from "@/lib/materialPdf";
+
+// @react-pdf/renderer needs Node APIs (streams) — must not run on the Edge runtime.
+export const runtime = "nodejs";
 
 function slugify(title: string) {
   return title
@@ -28,10 +34,35 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
     return NextResponse.json({ error: "No encontrado." }, { status: 404 });
   }
 
-  return new NextResponse(material.content, {
+  const structured = parseMaterialContent(material.content);
+
+  if (!structured) {
+    // Legacy freeform-markdown material — keep serving it as-is.
+    return new NextResponse(material.content, {
+      headers: {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Content-Disposition": `attachment; filename="${slugify(material.title)}.md"`,
+      },
+    });
+  }
+
+  // Plain function call, not JSX — this file is .ts, not .tsx, and route
+  // handlers must stay .ts. MaterialPdfDocument is a hook-free function
+  // component, so calling it directly returns the same element JSX would.
+  const buffer = await pdf(
+    MaterialPdfDocument({
+      title: material.title,
+      level: material.level,
+      type: material.type,
+      language: material.language,
+      content: structured,
+    })
+  ).toBuffer();
+
+  return new NextResponse(buffer as unknown as BodyInit, {
     headers: {
-      "Content-Type": "text/markdown; charset=utf-8",
-      "Content-Disposition": `attachment; filename="${slugify(material.title)}.md"`,
+      "Content-Type": "application/pdf",
+      "Content-Disposition": `attachment; filename="${slugify(material.title)}.pdf"`,
     },
   });
 }

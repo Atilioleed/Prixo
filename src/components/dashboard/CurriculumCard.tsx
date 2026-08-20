@@ -5,6 +5,7 @@ import { stagesFor, randomMotivationalMessage } from "@/lib/curriculum";
 import { useTutorProfile, getStageIndex, withStageIndex } from "@/context/TutorProfileContext";
 import { useSessions } from "@/context/SessionsContext";
 import { IconCheck, IconMedal, IconMessageDots } from "@/components/icons/Icon";
+import TestModal from "./TestModal";
 
 export default function CurriculumCard({ onPracticeStage }: { onPracticeStage: (topic: string) => void }) {
   const { profile, update } = useTutorProfile();
@@ -13,9 +14,10 @@ export default function CurriculumCard({ onPracticeStage }: { onPracticeStage: (
   const current = Math.min(getStageIndex(profile), stages.length - 1);
   const [justPassed, setJustPassed] = useState<number | null>(null);
   const [celebration, setCelebration] = useState<string | null>(null);
+  const [showTest, setShowTest] = useState(false);
 
-  function passFinal(index: number) {
-    if (index !== current) return;
+  function passFinal() {
+    const index = current;
     const next = Math.min(current + 1, stages.length - 1);
     const finalTest = stages[index].tests.find((t) => t.kind === "final")?.title ?? stages[index].tests.at(-1)?.title ?? "";
     update(withStageIndex(profile, next));
@@ -67,9 +69,9 @@ export default function CurriculumCard({ onPracticeStage }: { onPracticeStage: (
                 </div>
                 {status === "current" && (
                   <button
-                    onClick={() => passFinal(i)}
+                    onClick={() => setShowTest(true)}
                     className="lift glow-amber shrink-0 border-none bg-amber text-[#1a1400] px-3 py-2 rounded-[var(--radius-chip)] font-bold text-[10.5px] whitespace-nowrap"
-                    title="Simula rendir y aprobar el examen final de esta etapa"
+                    title="Rinde el examen final de esta etapa"
                   >
                     Rendir {finalTest?.title}
                   </button>
@@ -113,9 +115,19 @@ export default function CurriculumCard({ onPracticeStage }: { onPracticeStage: (
         })}
       </div>
       <p className="text-[11px] text-text-faint mt-3">
-        Modo demo: &quot;Rendir&quot; simula aprobar el examen final de la etapa. Las
-        pruebas reales se gestionan desde Panel admin → Pruebas y evaluaciones.
+        &quot;Rendir&quot; abre el examen real de la etapa cuando el equipo de Prixo lo
+        publicó (Panel admin → Pruebas y evaluaciones); si todavía no existe, ofrece
+        simular la aprobación mientras tanto.
       </p>
+      {showTest && (
+        <TestModal
+          language={profile.targetLanguage}
+          ageRange={profile.ageRange}
+          level={stages[current].level}
+          onClose={() => setShowTest(false)}
+          onPassed={passFinal}
+        />
+      )}
     </div>
   );
 }
