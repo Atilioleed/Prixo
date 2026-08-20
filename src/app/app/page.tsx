@@ -72,7 +72,15 @@ export default function AppShell() {
         {tab === "chat" && <Chat />}
         {tab === "materials" && <Materials />}
         {tab === "personalize" && <Personalize />}
-        {tab === "user" && <UserDashboard onGoToPlanning={() => setTab("planning")} />}
+        {tab === "user" && (
+          <UserDashboard
+            onGoToPlanning={() => setTab("planning")}
+            onPracticeStage={(scenario) => {
+              update({ scenario });
+              setTab("chat");
+            }}
+          />
+        )}
         {tab === "admin" && isAdmin && <Admin />}
       </div>
 

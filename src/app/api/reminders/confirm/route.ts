@@ -1,14 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { sendEmail, emailConfigured } from "@/lib/email";
+import { classScheduledEmail } from "@/lib/emailTemplates";
 
 interface ConfirmBody {
   date: string;
   time: string;
-}
-
-function escapeHtml(s: string) {
-  return s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]!));
 }
 
 export async function POST(req: NextRequest) {
@@ -33,20 +30,15 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Faltan date o time." }, { status: 400 });
   }
 
-  const date = escapeHtml(body.date);
-  const time = escapeHtml(body.time);
-
-  const result = await sendEmail({
-    to,
-    subject: "Tu clase en Prixo está agendada",
-    html: `
-      <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto;">
-        <h2 style="color: #1a1400;">Clase confirmada</h2>
-        <p>Tu sesión de práctica quedó agendada para el <strong>${date}</strong> a las <strong>${time}</strong>.</p>
-        <p style="color: #666; font-size: 13px;">Prixo — Tu idioma, un paso a la vez.</p>
-      </div>
-    `,
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://prixo.vercel.app";
+  const { subject, html } = classScheduledEmail({
+    name: session.user?.name ?? undefined,
+    date: body.date,
+    time: body.time,
+    siteUrl,
   });
+
+  const result = await sendEmail({ to, subject, html });
 
   return NextResponse.json(result);
 }

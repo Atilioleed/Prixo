@@ -33,7 +33,13 @@ const CHANNEL_ICON: Record<string, React.ComponentType<{ size?: number; classNam
   email: IconMail,
 };
 
-export default function UserDashboard({ onGoToPlanning }: { onGoToPlanning: () => void }) {
+export default function UserDashboard({
+  onGoToPlanning,
+  onPracticeStage,
+}: {
+  onGoToPlanning: () => void;
+  onPracticeStage: (topic: string) => void;
+}) {
   const { data: session } = useSession();
   const { profile } = useTutorProfile();
   const { activePlan } = usePlan();
@@ -80,7 +86,7 @@ export default function UserDashboard({ onGoToPlanning }: { onGoToPlanning: () =
       <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-4 items-start">
         <div className="flex flex-col gap-4">
           <PlanSummaryCard onGoToPlanning={onGoToPlanning} />
-          <CurriculumCard />
+          <CurriculumCard onPracticeStage={onPracticeStage} />
           <SessionsCard />
         </div>
 

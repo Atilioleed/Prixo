@@ -4,9 +4,9 @@ import { useState } from "react";
 import { stagesFor, randomMotivationalMessage } from "@/lib/curriculum";
 import { useTutorProfile } from "@/context/TutorProfileContext";
 import { useSessions } from "@/context/SessionsContext";
-import { IconCheck, IconMedal } from "@/components/icons/Icon";
+import { IconCheck, IconMedal, IconMessageDots } from "@/components/icons/Icon";
 
-export default function CurriculumCard() {
+export default function CurriculumCard({ onPracticeStage }: { onPracticeStage: (topic: string) => void }) {
   const { profile, update } = useTutorProfile();
   const { logSession } = useSessions();
   const stages = stagesFor(profile.ageRange);
@@ -81,11 +81,19 @@ export default function CurriculumCard() {
 
               {status === "current" && (
                 <div className="mt-3 pl-12 flex flex-col gap-2">
+                  <div className="data-label text-text-faint">
+                    Practica un tema con tu tutor ahora
+                  </div>
                   <div className="flex flex-wrap gap-1.5">
                     {stage.topics.map((t) => (
-                      <span key={t} className="text-[10.5px] font-medium text-text-soft bg-ground-raised border border-line rounded-[var(--radius-chip)] px-2 py-1">
+                      <button
+                        key={t}
+                        onClick={() => onPracticeStage(t)}
+                        className="lift flex items-center gap-1.5 text-[10.5px] font-medium text-text-soft bg-ground-raised border border-line rounded-[var(--radius-chip)] px-2 py-1 hover:border-cyan-dim/50 hover:text-cyan"
+                      >
+                        <IconMessageDots size={10} />
                         {t}
-                      </span>
+                      </button>
                     ))}
                   </div>
                   <div className="data-label text-text-faint">
