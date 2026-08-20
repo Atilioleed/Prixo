@@ -3,6 +3,7 @@ import { auth } from "@/auth";
 import { sendEmail, emailConfigured } from "@/lib/email";
 import { buildEmail } from "@/lib/emailTemplateStore";
 import { createCalendarEvent } from "@/lib/googleCalendar";
+import { sendSlackAlert } from "@/lib/slack";
 
 interface ConfirmBody {
   date: string;
@@ -33,6 +34,12 @@ export async function POST(req: NextRequest) {
     time: body.time,
     title: "Clase de práctica — Prixo",
   });
+
+  void sendSlackAlert(
+    `📅 Nueva clase agendada — ${to} para el ${body.date} a las ${body.time}${
+      calendarResult.created ? " (con Google Calendar)" : ""
+    }`
+  );
 
   if (!body.sendEmail) {
     return NextResponse.json({ sent: false, calendarCreated: calendarResult.created });

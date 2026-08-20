@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { generateWithFallback } from "@/lib/ai/generateWithFallback";
 import { hasAnyProviderConfigured } from "@/lib/ai/providers";
 import { buildTutorSystemPrompt, buildReviewSystemPrompt } from "@/lib/tutorSystemPrompt";
+import { sendSlackAlert } from "@/lib/slack";
 import type { TutorProfile } from "@/context/TutorProfileContext";
 import type { LearningPlan } from "@/context/PlanContext";
 
@@ -93,6 +94,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(parsed);
   } catch (err) {
     const message = err instanceof Error ? err.message : "Error desconocido";
+    void sendSlackAlert(`🔴 Todos los proveedores de IA fallaron en /api/chat — ${message}`);
     return NextResponse.json({ error: `Error al contactar la IA: ${message}` }, { status: 502 });
   }
 }

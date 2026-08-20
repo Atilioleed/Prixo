@@ -3,6 +3,7 @@ import type { Provider } from "next-auth/providers";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
+import { sendSlackAlert } from "@/lib/slack";
 
 const providers: Provider[] = [
   Credentials({
@@ -42,6 +43,7 @@ const providers: Provider[] = [
       if (username !== expectedUsername) return null;
       const valid = await bcrypt.compare(password, passwordHash);
       if (!valid) return null;
+      void sendSlackAlert(`🔑 Inicio de sesión en Panel admin — usuario "${username}"`);
       return { id: loginEmail, email: loginEmail, name: "Admin" };
     },
   }),

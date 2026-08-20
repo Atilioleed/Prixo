@@ -93,7 +93,6 @@ export default function ScheduleModal({ open, onClose }: { open: boolean; onClos
     setConfirmed(true);
 
     const wantsEmail = channels.has("email");
-    if (!wantsEmail && !calendarConnected) return;
 
     if (wantsEmail) setEmailStatus("sending");
     if (calendarConnected) setCalendarStatus("creating");

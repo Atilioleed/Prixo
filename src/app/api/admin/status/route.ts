@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { requireAdminSession } from "@/lib/adminAuth";
 import { getProviderStatuses } from "@/lib/ai/providers";
 import { emailConfigured } from "@/lib/email";
+import { slackConfigured } from "@/lib/slack";
 import { dbConfigured } from "@/db/client";
 
 export async function GET() {
@@ -17,6 +18,7 @@ export async function GET() {
     email: { configured: emailConfigured() },
     googleAuth: { configured: googleConfigured },
     googleCalendar: { configured: googleConfigured },
+    slack: { configured: slackConfigured() },
     database: { configured: dbConfigured() },
   });
 }

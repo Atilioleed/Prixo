@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { generateWithFallback } from "@/lib/ai/generateWithFallback";
 import { hasAnyProviderConfigured } from "@/lib/ai/providers";
 import { buildPlanSystemPrompt } from "@/lib/planSystemPrompt";
+import { sendSlackAlert } from "@/lib/slack";
 import type { TutorProfile } from "@/context/TutorProfileContext";
 
 // Plan generation (with fallback across providers) can take well over
@@ -82,6 +83,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(parsed);
   } catch (err) {
     const message = err instanceof Error ? err.message : "Error desconocido";
+    void sendSlackAlert(`🔴 Todos los proveedores de IA fallaron en /api/plan — ${message}`);
     return NextResponse.json({ error: `Error al contactar la IA: ${message}` }, { status: 502 });
   }
 }

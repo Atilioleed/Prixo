@@ -87,7 +87,7 @@ const CONNECTORS: { icon: typeof IconCalendar; name: string; desc: string; activ
   { icon: IconMail, name: "SMS (Twilio)", desc: "Envía los recordatorios de clase por mensaje de texto", active: false, accent: "pink" },
   { icon: IconPhoneApp, name: "Notificaciones push (app móvil)", desc: "Recordatorios dentro de la app — requiere la app nativa, no solo la PWA", active: false, accent: "cyan" },
   { icon: IconPlug, name: "Zapier", desc: "Automatizaciones con otras herramientas", active: false, accent: "amber" },
-  { icon: IconMessageDots, name: "Slack", desc: "Alertas internas para el equipo de Prixo", active: false, accent: "seal-violet" },
+  { icon: IconMessageDots, name: "Slack", desc: "Alertas internas para el equipo de Prixo — activo. Avisa de clases agendadas, caídas de IA e inicios de sesión en el panel.", active: true, accent: "seal-violet" },
 ];
 
 interface ProviderStatus {
@@ -104,6 +104,7 @@ interface ApiStatus {
   email: { configured: boolean };
   googleAuth: { configured: boolean };
   googleCalendar: { configured: boolean };
+  slack: { configured: boolean };
 }
 
 function money(n: number) {
@@ -441,7 +442,7 @@ export default function Admin() {
                       meta={
                         p.configured
                           ? `Configurada · modelo ${p.model}`
-                          : `No configurada — agregala en .env.local (ver .env.local.example)`
+                          : `No configurada — agrégala en .env.local (ver .env.local.example)`
                       }
                       active={p.configured}
                     />
@@ -470,6 +471,12 @@ export default function Admin() {
                     }
                     active={apiStatus.googleCalendar.configured}
                   />
+                  <FlowRow
+                    icon={<IconMessageDots size={16} />}
+                    name="Slack — alertas internas"
+                    meta={apiStatus.slack.configured ? "Configurada" : "No configurada — SLACK_WEBHOOK_URL"}
+                    active={apiStatus.slack.configured}
+                  />
                 </>
               )}
             </div>
@@ -483,11 +490,11 @@ export default function Admin() {
             <div>
               <h3 className="text-[19px] font-bold mb-1 text-text">Conectores</h3>
               <div className="text-[12.5px] text-text-soft mb-[18px]">
-                Integraciones con otras herramientas. Los agentes de IA, el correo (Resend) y
-                Google Calendar ya funcionan de verdad — ver Panel admin → Integraciones. El
-                resto de acá son conectores conceptuales todavía sin construir: cuando un
-                alumno elige avisos por WhatsApp, SMS o notificación push, hoy quedan
-                guardados como recordatorio interno, sin enviarse.
+                Integraciones con otras herramientas. Los agentes de IA, el correo (Resend),
+                Google Calendar y Slack ya funcionan de verdad — ver Panel admin →
+                Integraciones. El resto de acá son conectores conceptuales todavía sin
+                construir: cuando un alumno elige avisos por WhatsApp, SMS o notificación
+                push, hoy quedan guardados como recordatorio interno, sin enviarse.
               </div>
               {CONNECTORS.map((c) => (
                 <FlowRow key={c.name} icon={<c.icon size={16} />} name={c.name} meta={c.desc} active={c.active} accent={c.accent} />
