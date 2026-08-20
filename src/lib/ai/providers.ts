@@ -55,7 +55,9 @@ export const AI_PROVIDERS: AiProviderDef[] = [
     tier: "free",
     envKey: "OPENROUTER_API_KEY",
     modelEnvKey: "OPENROUTER_MODEL",
-    defaultModel: "meta-llama/llama-3.1-8b-instruct:free",
+    // Verified live against OpenRouter's /models endpoint — the old default
+    // ("meta-llama/llama-3.1-8b-instruct:free") was retired.
+    defaultModel: "openai/gpt-oss-20b:free",
     model: (apiKey, modelId) =>
       createOpenAI({ apiKey, baseURL: "https://openrouter.ai/api/v1" })(modelId),
   },
